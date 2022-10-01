@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="WARN">
+
+	<Properties>
+		<property name="basePath">${catalina.home}/logs</property>
+		<property name="logPattern">%d{HH:mm:ss.SSS} [%t] [%-p] %C{3}.%M(%F:%L) – %m%n</property>
+	</Properties>
+
+	<Appenders>
+		<Console name="consoleApp" target="SYSTEM_OUT">
+			<PatternLayout pattern="${logPattern}" />
+		</Console>
+		<RollingFile name="fileApp" fileName="${basePath}/pos.log" filePattern="${basePath}/$${date:yyyy-MM}/pos-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.dt" level="info" additivity="false">
+			<AppenderRef ref="fileApp" />
+			<AppenderRef ref="consoleApp" />
+		</Logger>
+		<Root level="info">
+			<AppenderRef ref="fileApp" />
+			<AppenderRef ref="consoleApp" />
+		</Root>
+	</Loggers>
+
+</Configuration>
