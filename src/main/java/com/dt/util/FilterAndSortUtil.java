@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 public final class FilterAndSortUtil {
 
+	private FilterAndSortUtil() {
+		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
+	}
+
 	public static final <T> List<T> filter(Collection<T> data, String searchText) {
 		Predicate<T> predicate = new FilterPredicate<>(searchText);
 		return data.parallelStream().filter(predicate).collect(Collectors.toList());

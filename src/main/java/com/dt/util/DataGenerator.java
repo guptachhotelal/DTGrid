@@ -27,6 +27,7 @@ public final class DataGenerator {
 	private static final Map<Long, TestData> STORAGE = new ConcurrentHashMap<>();
 
 	private DataGenerator() {
+		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
 	}
 
 	private static final long date() {
