@@ -20,44 +20,35 @@ body {
 .dataTables_filter input {
 	min-width: 300px;
 }
-
-#tblList_processing {
-	z-index: 1;
-}
-
 .dataTables_length select {
 	margin-top: 10px;
 }
-
-.rightAlign {
-	text-align: right;
-}
-
-.centerAlign {
-	text-align: center;
+#tblList_paginate {
+	margin-top: 10px;
 }
 </style>
 </head>
 <body>
-	<div class="container-fluid" style="width: 80%; margin-top: 10px;">
-		<table id="tblList"
-			class="table table-striped table-bordered table-sm nowrap responsive"
-			style="width: 100%;">
+
+<div class="container-fluid shadow rounded-2 my-3 col-11">
+        <div class="row card card-body rounded-3">
+          <table id="tblList" class="table table-striped nowrap responsive" style="width: 100%;">
 			<thead>
 				<tr>
-					<th class="centerAlign">Sr. No</th>
-					<th class="centerAlign">Name</th>
-					<th class="centerAlign">Date of Birth</th>
-					<th class="centerAlign">Phone</th>
-					<th class="centerAlign">City</th>
-					<th class="centerAlign">Pincode</th>
-					<th class="centerAlign">State</th>
-					<th class="centerAlign">Create Date</th>
-					<th class="centerAlign">Update Date</th>
+					<th class="text-center">Sr. No</th>
+					<th class="text-center">Name</th>
+					<th class="text-center">Date of Birth</th>
+					<th class="text-center">Phone</th>
+					<th class="text-center">City</th>
+					<th class="text-center">Pincode</th>
+					<th class="text-center">State</th>
+					<th class="text-center">Create Date</th>
+					<th class="text-center">Update Date</th>
 				</tr>
 			</thead>
 		</table>
-	</div>
+    </div>
+  </div> 
 	<%@include file="../common/footer.jsp"%>
 </body>
 </html>

@@ -28,21 +28,21 @@ $(function () {
             }
         },
         "columns": [
-            {"targets": 0, "data": null, "orderable": false, "className": "rightAlign", render: function (data, type, row, meta) {
+            {"targets": 0, "data": null, "orderable": false, "className": "text-end", render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }},
             {"targets": 1, "data": "name"},
-            {"targets": 2, "data": "dob", "className": "rightAlign", render: function (data, type, row, meta) {
+            {"targets": 2, "data": "dob", "className": "text-end", render: function (data, type, row, meta) {
                 return new Date(data).toISOString().substring(0, 10);
             }},
-            {"targets": 3, "data": "phone", "className": "rightAlign"},
+            {"targets": 3, "data": "phone", "className": "text-end"},
             {"targets": 4, "data": "city"},
-            {"targets": 5, "data": "pincode", "className": "rightAlign"},
+            {"targets": 5, "data": "pincode", "className": "text-end"},
             {"targets": 6, "data": "state"},
-            {"targets": 7, "data": "createDate", "className": "rightAlign", render: function (data, type, row, meta) {
+            {"targets": 7, "data": "createDate", "className": "text-end", render: function (data, type, row, meta) {
                 return new Date(data).toISOString().substring(0, 19);
             }},
-            {"targets": 8, "data": "updateDate", "className": "rightAlign", render: function (data, type, row, meta) {
+            {"targets": 8, "data": "updateDate", "className": "text-end", render: function (data, type, row, meta) {
                 return new Date(data).toISOString().substring(0, 19);
             }}
         ],
