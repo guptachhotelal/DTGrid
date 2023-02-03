@@ -1,11 +1,10 @@
 package com.dt.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 @RequestMapping(DocConstant.API_VERSION)
 public class DataController {
@@ -34,6 +36,7 @@ public class DataController {
 					DocConstant.TAG_DATA })
 	@PostMapping(value = DocConstant.TAG_DATA_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> list(HttpServletRequest request) {
+		log.info("Started at {}", LocalDateTime.now());
 		String sortColumn = request.getParameter("order[0][column]");
 		boolean asc = "asc".equals(request.getParameter("order[0][dir]")) ? true : false;
 		String sText = request.getParameter("search[value]");
@@ -54,6 +57,7 @@ public class DataController {
 			dataMap.put("recordsFiltered", entry.getKey());
 			dataMap.put("data", entry.getValue());
 		});
+		log.info("Ended at {} for page {} having size {}", LocalDateTime.now(), pageNumber, length);
 		return ResponseEntity.ok(dataMap);
 	}
 }

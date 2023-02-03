@@ -10,10 +10,6 @@ import java.util.stream.Collectors;
 
 public final class FilterAndSortUtil {
 
-	private FilterAndSortUtil() {
-		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
-	}
-
 	public static final <T> List<T> filter(Collection<T> data, String searchText) {
 		Predicate<T> predicate = new FilterPredicate<>(searchText);
 		return data.parallelStream().filter(predicate).collect(Collectors.toList());
@@ -33,5 +29,9 @@ public final class FilterAndSortUtil {
 		Map<Long, List<T>> map = new HashMap<>();
 		map.put(Long.valueOf(list.size()), list.parallelStream().skip(idx).limit(pgSize).collect(Collectors.toList()));
 		return map;
+	}
+
+	private FilterAndSortUtil() {
+		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
 	}
 }

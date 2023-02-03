@@ -82,7 +82,7 @@ public final class DataGenerator {
 		}
 		if (STORAGE.size() == 10000) {
 			new Thread(() -> {
-				generate(STORAGE, 10001, 5000000);
+				generate(STORAGE, 10001, 10000000);
 			}).start();
 		}
 		return STORAGE;

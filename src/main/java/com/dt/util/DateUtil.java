@@ -11,10 +11,6 @@ public final class DateUtil {
 
 	public static final String FORMAT_YYYY_MM_DD_DASH = "yyyy-MM-dd";
 
-	private DateUtil() {
-		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
-	}
-
 	public static final long dateToLong(LocalDate ld) {
 		return ld.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 	}
@@ -29,5 +25,9 @@ public final class DateUtil {
 
 	public static final LocalDate stringToDate(String date, String format) {
 		return LocalDate.parse(date, DateTimeFormatter.ofPattern(format));
+	}
+
+	private DateUtil() {
+		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
 	}
 }

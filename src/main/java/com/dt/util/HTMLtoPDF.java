@@ -14,7 +14,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
-public class HTMLtoPDF {
+public final class HTMLtoPDF {
 
 	private static String USER_PASSWORD = "password";
 	private static String OWNER_PASSWORD = "password";

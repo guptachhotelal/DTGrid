@@ -13,14 +13,14 @@ import io.swagger.v3.oas.models.info.License;
 public class DocConfiguration {
 
 	@Bean
-	public GroupedOpenApi data() {
+	GroupedOpenApi data() {
 		return GroupedOpenApi.builder().group(DocConstant.TAG_DATA)
 				.pathsToMatch(DocConstant.API_VERSION + "/" + DocConstant.TAG_DATA_URL).build();
 
 	}
 
 	@Bean
-	public OpenAPI info() {
+	OpenAPI info() {
 		return new OpenAPI()
 				.info(new Info().title("Datatable Spring Boot Test").description("Datatable Test using Spring Boot")
 						.version("v0.0.1").license(new License().name("Apache 2.0").url("http://springdoc.org")))
