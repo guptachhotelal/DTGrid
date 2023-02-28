@@ -32,6 +32,6 @@ public final class FilterAndSortUtil {
 	}
 
 	private FilterAndSortUtil() {
-		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
+		throw new UnsupportedOperationException("Cannot instantiate " + getClass().getName());
 	}
 }

@@ -28,6 +28,6 @@ public final class DateUtil {
 	}
 
 	private DateUtil() {
-		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
+		throw new UnsupportedOperationException("Cannot instantiate  " + getClass().getName());
 	}
 }
