@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public final class FilterAndSortUtil {
+public class FilterAndSortUtil {
 
 	public static final <T> List<T> filter(Collection<T> data, String searchText) {
 		Predicate<T> predicate = new FilterPredicate<>(searchText);

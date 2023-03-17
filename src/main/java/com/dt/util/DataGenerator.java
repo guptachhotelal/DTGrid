@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import com.dt.entity.TestData;
 
-public final class DataGenerator {
+public class DataGenerator {
 
 	private static final char[] CHARS = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
 			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -30,7 +30,7 @@ public final class DataGenerator {
 		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
 	}
 
-	private static final long date() {
+	private static long date() {
 		LocalDateTime ldt1 = LocalDateTime.now().minusYears(18);
 		long startMillis = DateUtil.dateTimeToLong(ldt1);
 		LocalDateTime ldt2 = ldt1.withYear(1980);
@@ -38,7 +38,7 @@ public final class DataGenerator {
 		return ThreadLocalRandom.current().nextLong(endMillis, startMillis);
 	}
 
-	private static final void generate(Map<Long, TestData> map, int from, int to) {
+	private static void generate(Map<Long, TestData> map, int from, int to) {
 		int charLen = CHARS.length;
 		int cityLen = CPS.length;
 		StringBuilder sb = new StringBuilder();
@@ -66,13 +66,16 @@ public final class DataGenerator {
 			long dob = date();
 			LocalDateTime ldt = DateUtil.longToDateTime(dob).plusYears(index(10));
 			long time = DateUtil.dateTimeToLong(ldt);
-			TestData td = new TestData(i, name, dob, phone, CPS[cIdx][0], CPS[cIdx][1], CPS[cIdx][2], time,
-					time + RANDOM.nextInt(0, 3600));
+			TestData td = TestData.builder().id(i).name(name).dob(dob).phone(phone).city(CPS[cIdx][0])
+					.pincode(CPS[cIdx][1]).state(CPS[cIdx][2]).createDate(time)
+					.updateDate(time + RANDOM.nextInt(0, 3600)).build();
+//			TestData td = new TestData(i, name, dob, phone, CPS[cIdx][0], CPS[cIdx][1], CPS[cIdx][2], time,
+//					time + RANDOM.nextInt(0, 3600));
 			map.put(i, td);
 		}
 	}
 
-	private static final int index(int seed) {
+	private static int index(int seed) {
 		return RANDOM.nextInt(seed);
 	}
 

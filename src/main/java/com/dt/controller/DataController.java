@@ -38,14 +38,14 @@ public class DataController {
 	public ResponseEntity<Map<String, Object>> list(HttpServletRequest request) {
 		log.info("Started at {}", LocalDateTime.now());
 		String sortColumn = request.getParameter("order[0][column]");
-		boolean asc = "asc".equals(request.getParameter("order[0][dir]")) ? true : false;
+		boolean asc = "asc".equals(request.getParameter("order[0][dir]")) || false;
 		String sText = request.getParameter("search[value]");
 		sText = Objects.isNull(sText) ? "" : sText.toLowerCase();
 		String sStart = request.getParameter("start");
 		int start = Objects.isNull(sStart) ? 0 : Integer.parseInt(sStart);
 		String sLength = request.getParameter("length");
 		int length = Objects.isNull(sLength) ? 10 : Integer.parseInt(sLength);
-		length = length <= -1 ? 100 : length;
+		length = length <= 0 ? 100 : length;
 		int pageNumber = start / length + 1;
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("draw", request.getParameter("draw"));

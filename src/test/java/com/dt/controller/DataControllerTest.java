@@ -10,6 +10,7 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import com.dt.DTGridApplicationTest;
@@ -18,49 +19,95 @@ import com.dt.entity.TestData;
 
 public class DataControllerTest extends DTGridApplicationTest {
 
+	private static final int SORT_COLUMN = 1;
+	private static final int SORT_ORDER_ASC = 2;
+	private static final int SORT_ORDER_DESC = 3;
+	private static final int SEARCH_TEXT_EMPTY = 4;
+	private static final int SEARCH_TEXT_NON_EMPTY = 5;
+	private static final int START_FROM_FIRST = 6;
+	private static final int START_FROM_OTHER = 7;
+	private static final int PER_PAGE_ZERO = 8;
+	private static final int PER_PAGE_NEGATIVE = 9;
+	private static final int PER_PAGE_POSITIVE = 10;
+
 	@Test
-	public void testListEmptyUserEmptyPasword1() throws Exception {
-		print(mockMvc.perform(request("", "")).andExpect(status().isUnauthorized()));
+	public void testListUser() throws Exception {
+		// for user, password
+		print(mockMvc.perform(withUser("", "")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("user", "")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("", "user")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("user", "user")).andExpect(status().isOk()));
+
+		// for admin.password
+		print(mockMvc.perform(withUser("admin", "")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("", "admin")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("admin", "admin")).andExpect(status().isOk()));
+		print(mockMvc.perform(withUser("wronguser", "wrongpassword")).andExpect(status().isUnauthorized()));
 	}
 
 	@Test
-	public void testListUserEmptyPasword() throws Exception {
-		print(mockMvc.perform(request("user", "")).andExpect(status().isUnauthorized()));
+	public void testSortColum() throws Exception {
+		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		print(mockMvc.perform(withField(request, SORT_COLUMN)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, SORT_ORDER_ASC)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, SORT_ORDER_DESC)).andExpect(status().isOk()));
 	}
 
 	@Test
-	public void testListEmptyUserPasword() throws Exception {
-		print(mockMvc.perform(request("", "user")).andExpect(status().isUnauthorized()));
+	public void testSearch() throws Exception {
+		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		print(mockMvc.perform(withField(request, SEARCH_TEXT_EMPTY)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY)).andExpect(status().isOk()));
 	}
 
 	@Test
-	public void testListAuthorizedUserPassword() throws Exception {
-		print(mockMvc.perform(request("user", "user")).andExpect(status().isOk()));
+	public void testStart() throws Exception {
+		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		print(mockMvc.perform(withField(request, START_FROM_FIRST)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, START_FROM_OTHER)).andExpect(status().isOk()));
 	}
 
 	@Test
-	public void testListAdminEmptyPassword() throws Exception {
-		print(mockMvc.perform(request("admin", "")).andExpect(status().isUnauthorized()));
+	public void testPerPage() throws Exception {
+		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		print(mockMvc.perform(withField(request, PER_PAGE_ZERO)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, PER_PAGE_NEGATIVE)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, PER_PAGE_POSITIVE)).andExpect(status().isOk()));
 	}
 
-	@Test
-	public void testListEmptyAdminPassword() throws Exception {
-		print(mockMvc.perform(request("", "admin")).andExpect(status().isUnauthorized()));
+	private RequestBuilder withField(MockHttpServletRequestBuilder request, int condition) {
+		switch (condition) {
+		case SORT_COLUMN:
+			return request.param("order[0][column]", columnName());
+		case SORT_ORDER_ASC:
+			return request.param("order[0][dir]", "asc");
+		case SORT_ORDER_DESC:
+			return request.param("order[0][dir]", "desc");
+		case SEARCH_TEXT_EMPTY:
+			return request.param("search[value]", "");
+		case SEARCH_TEXT_NON_EMPTY:
+			return request.param("search[value]", "abc");
+		case START_FROM_FIRST:
+			return request.param("start", "0");
+		case START_FROM_OTHER:
+			return request.param("start", "10");
+		case PER_PAGE_ZERO:
+			return request.param("length", "0");
+		case PER_PAGE_NEGATIVE:
+			return request.param("length", "-10");
+		case PER_PAGE_POSITIVE:
+			return request.param("length", "20");
+		default:
+			return request.param("length", "20");
+		}
 	}
 
-	@Test
-	public void testListAuthorizedAdminPassword() throws Exception {
-		print(mockMvc.perform(request("admin", "admin")).andExpect(status().isOk()));
+	private MockHttpServletRequestBuilder withRequest() {
+		return post(host() + DocConstant.API_VERSION + "/" + DocConstant.TAG_DATA_URL);
 	}
 
-	@Test
-	public void testListWrongUserWrongPassword() throws Exception {
-		print(mockMvc.perform(request("wronguser", "wrongpassword")).andExpect(status().isUnauthorized()));
-	}
-
-	private RequestBuilder request(String user, String password) {
-		return post(host() + DocConstant.API_VERSION + "/" + DocConstant.TAG_DATA_URL)
-				.param("order[0][column]", columnName()).with(httpBasic(user, password));
+	private MockHttpServletRequestBuilder withUser(String user, String password) {
+		return withRequest().with(httpBasic(user, password));
 	}
 
 	private void print(ResultActions action) throws Exception {
