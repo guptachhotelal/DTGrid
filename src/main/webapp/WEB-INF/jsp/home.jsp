@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <title>Home</title>
 <%@include file="../common/include.jsp"%>
-<script type="text/javascript" src="js/slist.js"></script>
+<script type="text/javascript" src="js/fetcher.js"></script>
 <style type="text/css">
 body {
 	overflow-y: scroll;
@@ -38,6 +38,7 @@ body {
 					<th class="text-center">Name</th>
 					<th class="text-center">Date of Birth</th>
 					<th class="text-center">Phone</th>
+					<th class="text-center">Email</th>
 					<th class="text-center">City</th>
 					<th class="text-center">Pincode</th>
 					<th class="text-center">State</th>

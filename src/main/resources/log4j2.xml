@@ -4,14 +4,16 @@
 
 	<Properties>
 		<property name="basePath">${catalina.home}/logs</property>
-		<property name="logPattern">%d{HH:mm:ss.SSS} [%t] [%-p] %C{3}.%M(%F:%L) – %m%n</property>
+		<property name="logPattern">%d{HH:mm:ss.SSS} [%t] [%-p] %C{3}.%M(%F:%L)
+			– %m%n</property>
 	</Properties>
 
 	<Appenders>
 		<Console name="consoleApp" target="SYSTEM_OUT">
 			<PatternLayout pattern="${logPattern}" />
 		</Console>
-		<RollingFile name="fileApp" fileName="${basePath}/pos.log" filePattern="${basePath}/$${date:yyyy-MM}/pos-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="fileApp" fileName="${basePath}/pos.log"
+			filePattern="${basePath}/$${date:yyyy-MM}/pos-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${logPattern}</Pattern>
 			</PatternLayout>

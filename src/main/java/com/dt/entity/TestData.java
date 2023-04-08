@@ -15,6 +15,7 @@ public class TestData implements Serializable {
 	private String name;
 	private long dob;
 	private String phone;
+	private String email;
 	private String city;
 	private String pincode;
 	private String state;

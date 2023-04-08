@@ -22,6 +22,9 @@ public class DataGenerator {
 			{ "Mysuru", "570001", "karnataka" }, { "Indore", "452001", "Madhya Pradesh" },
 			{ "Nagpur", "440001", "Maharashtra" } };
 
+	private static final String[] DOMAINS = { "gmail.com", "yahoo.com", "msn.com", "live.com", "hotmail.com",
+			"yahoo.co.in", "outlook.com", "gmx.com", "rediff.com", "zoho.com" };
+
 	private static final Random RANDOM = new Random();
 
 	private static final Map<Long, TestData> STORAGE = new ConcurrentHashMap<>();
@@ -66,11 +69,10 @@ public class DataGenerator {
 			long dob = date();
 			LocalDateTime ldt = DateUtil.longToDateTime(dob).plusYears(index(10));
 			long time = DateUtil.dateTimeToLong(ldt);
-			TestData td = TestData.builder().id(i).name(name).dob(dob).phone(phone).city(CPS[cIdx][0])
+			String email = name.substring(0, 10).toLowerCase().concat("@").concat(DOMAINS[index(DOMAINS.length)]);
+			TestData td = TestData.builder().id(i).name(name).dob(dob).phone(phone).email(email).city(CPS[cIdx][0])
 					.pincode(CPS[cIdx][1]).state(CPS[cIdx][2]).createDate(time)
 					.updateDate(time + RANDOM.nextInt(0, 3600)).build();
-//			TestData td = new TestData(i, name, dob, phone, CPS[cIdx][0], CPS[cIdx][1], CPS[cIdx][2], time,
-//					time + RANDOM.nextInt(0, 3600));
 			map.put(i, td);
 		}
 	}
