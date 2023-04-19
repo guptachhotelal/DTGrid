@@ -10,9 +10,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 import com.dt.entity.TestData;
 
+@Configuration
+@PropertySource("classpath:/dtgrid-${spring.profiles.active}.properties")
 public class DataGenerator {
+
+	@Value("${app.record.size}")
+	private int size;
+
+	private static int SIZE;
+
+	@Value("${app.record.size}")
+	private void setsize(int size) {
+		SIZE = size;
+	}
 
 	private static final char[] CHARS = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
 			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -28,10 +44,6 @@ public class DataGenerator {
 	private static final Random RANDOM = new Random();
 
 	private static final Map<Long, TestData> STORAGE = new ConcurrentHashMap<>();
-
-	private DataGenerator() {
-		throw new UnsupportedOperationException("Cannot initilize " + getClass().getName());
-	}
 
 	private static long date() {
 		LocalDateTime ldt1 = LocalDateTime.now().minusYears(18);
@@ -87,7 +99,7 @@ public class DataGenerator {
 		}
 		if (STORAGE.size() == 10000) {
 			new Thread(() -> {
-				generate(STORAGE, 10001, 10000000);
+				generate(STORAGE, 10001, SIZE);
 			}).start();
 		}
 		return STORAGE;

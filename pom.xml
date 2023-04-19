@@ -21,6 +21,7 @@
 		<java.version>17</java.version>
 		<itext.version>5.5.13.3</itext.version>
 		<springdoc.version>1.7.0</springdoc.version>
+		<jsoup.version>1.15.4</jsoup.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -63,7 +64,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.15.4</version>
+			<version>${jsoup.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -101,11 +102,11 @@
 						<artifactId>tomcat7-maven-plugin</artifactId>
 						<version>2.2</version>
 						<configuration>
-							<url>http://192.168.225.146:8080/manager/text</url>
+							<url>http://localhost:8080/manager/text</url>
 							<server>TomcatServerUAT</server>
-							<path>/dtgrid</path>
-							<username>user</username>
-							<password>password</password>
+							<path>/${project.artifactId}</path>
+							<username>admin</username>
+							<password>admin</password>
 							<update>true</update>
 						</configuration>
 					</plugin>
@@ -129,7 +130,7 @@
 						<configuration>
 							<url>http://192.168.43.196:8080/manager/text</url>
 							<server>TomcatServerPROD</server>
-							<path>/dtgrid</path>
+							<path>/${project.artifactId}</path>
 							<username>user</username>
 							<password>password</password>
 							<update>true</update>
