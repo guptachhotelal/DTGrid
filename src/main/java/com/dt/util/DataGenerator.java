@@ -17,16 +17,16 @@ import org.springframework.context.annotation.PropertySource;
 import com.dt.entity.TestData;
 
 @Configuration
-@PropertySource("classpath:/dtgrid-${spring.profiles.active}.properties")
+@PropertySource({ "classpath:/dtgrid-${spring.profiles.active}.properties" })
 public class DataGenerator {
-
-	@Value("${app.record.size}")
-	private int size;
 
 	private static int SIZE;
 
 	@Value("${app.record.size}")
-	private void setsize(int size) {
+	private int size;
+
+	@Value("${app.record.size}")
+	void setsize(int size) {
 		SIZE = size;
 	}
 

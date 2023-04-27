@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import com.dt.DTGridApplicationTest;
-import com.dt.config.DocConstant;
 import com.dt.entity.TestData;
 
 public class DataControllerTest extends DTGridApplicationTest {
@@ -30,24 +29,31 @@ public class DataControllerTest extends DTGridApplicationTest {
 	private static final int PER_PAGE_NEGATIVE = 9;
 	private static final int PER_PAGE_POSITIVE = 10;
 
+	private static final String USER_NAME = "user";
+	private static final String USER_PASSWORD = "user";
+
+	private static final String ADMIN_USER_NAME = "admin";
+	private static final String ADMIN_PASSWORD = "admin";
+
 	@Test
 	public void testListUser() throws Exception {
 		// for user, password
 		print(mockMvc.perform(withUser("", "")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("user", "")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("", "user")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("user", "user")).andExpect(status().isOk()));
+		print(mockMvc.perform(withUser(USER_NAME, "")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("", USER_PASSWORD)).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser(USER_NAME, USER_PASSWORD)).andExpect(status().isOk()));
 
-		// for admin.password
-		print(mockMvc.perform(withUser("admin", "")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("", "admin")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("admin", "admin")).andExpect(status().isOk()));
+		// for admin. password
+		print(mockMvc.perform(withUser(ADMIN_USER_NAME, "")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("", ADMIN_PASSWORD)).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser(ADMIN_USER_NAME, ADMIN_PASSWORD)).andExpect(status().isOk()));
+
 		print(mockMvc.perform(withUser("wronguser", "wrongpassword")).andExpect(status().isUnauthorized()));
 	}
 
 	@Test
 	public void testSortColum() throws Exception {
-		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, SORT_COLUMN)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, SORT_ORDER_ASC)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, SORT_ORDER_DESC)).andExpect(status().isOk()));
@@ -55,21 +61,21 @@ public class DataControllerTest extends DTGridApplicationTest {
 
 	@Test
 	public void testSearch() throws Exception {
-		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, SEARCH_TEXT_EMPTY)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY)).andExpect(status().isOk()));
 	}
 
 	@Test
 	public void testStart() throws Exception {
-		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, START_FROM_FIRST)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, START_FROM_OTHER)).andExpect(status().isOk()));
 	}
 
 	@Test
 	public void testPerPage() throws Exception {
-		MockHttpServletRequestBuilder request = withUser("admin", "admin");
+		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, PER_PAGE_ZERO)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, PER_PAGE_NEGATIVE)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, PER_PAGE_POSITIVE)).andExpect(status().isOk()));
@@ -102,12 +108,8 @@ public class DataControllerTest extends DTGridApplicationTest {
 		}
 	}
 
-	private MockHttpServletRequestBuilder withRequest() {
-		return post(host() + DocConstant.API_VERSION + "/" + DocConstant.TAG_DATA_URL);
-	}
-
 	private MockHttpServletRequestBuilder withUser(String user, String password) {
-		return withRequest().with(httpBasic(user, password));
+		return post(host() + "v1/data").with(httpBasic(user, password));
 	}
 
 	private void print(ResultActions action) throws Exception {
