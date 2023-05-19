@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.DispatcherType;
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +30,9 @@ public class AppSecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(auth -> auth.shouldFilterAllDispatcherTypes(false).requestMatchers("/resources/**")
-				.permitAll().requestMatchers("*/**").hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
+		http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+				.requestMatchers("/resources/**").permitAll()
+				.requestMatchers("*/**").hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
 				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true))
 				.logout(logout -> logout.permitAll()).csrf(csrf->csrf.disable()) .httpBasic(withDefaults());
 		return http.csrf(csrf -> csrf.disable()).build();
