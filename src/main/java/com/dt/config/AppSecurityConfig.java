@@ -1,5 +1,7 @@
 package com.dt.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,10 +31,9 @@ public class AppSecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(auth -> auth.shouldFilterAllDispatcherTypes(false).requestMatchers("/resources/**")
 				.permitAll().requestMatchers("*/**").hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
-				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true)).logout()
-				.permitAll().and().httpBasic();
-		http.csrf().disable();
-		return http.build();
+				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true))
+				.logout(logout -> logout.permitAll()).csrf(csrf->csrf.disable()) .httpBasic(withDefaults());
+		return http.csrf(csrf -> csrf.disable()).build();
 	}
 
 	@Bean
