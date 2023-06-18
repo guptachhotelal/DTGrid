@@ -2,7 +2,6 @@ package com.dt.util;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -25,10 +24,8 @@ public class FilterAndSortUtil {
 		Predicate<T> predicate = new FilterPredicate<>(searchText);
 		Comparator<T> comparator = new FieldComparator<>(sortColumn, asc);
 		List<T> list = data.parallelStream().filter(predicate).sorted(comparator).collect(Collectors.toList());
-		int idx = (pgNumber - 1) * pgSize;
-		Map<Long, List<T>> map = new HashMap<>();
-		map.put(Long.valueOf(list.size()), list.parallelStream().skip(idx).limit(pgSize).collect(Collectors.toList()));
-		return map;
+		return list.parallelStream().skip((pgNumber - 1) * pgSize).limit(pgSize)
+				.collect(Collectors.groupingBy(l -> Long.valueOf(list.size()), Collectors.toList()));
 	}
 
 	private FilterAndSortUtil() {

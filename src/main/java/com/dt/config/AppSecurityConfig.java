@@ -34,7 +34,7 @@ public class AppSecurityConfig {
 				.requestMatchers("/resources/**").permitAll()
 				.requestMatchers("*/**").hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
 				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true))
-				.logout(logout -> logout.permitAll()).csrf(csrf->csrf.disable()) .httpBasic(withDefaults());
+				.logout(logout -> logout.permitAll()).httpBasic(withDefaults());
 		return http.csrf(csrf -> csrf.disable()).build();
 	}
 
