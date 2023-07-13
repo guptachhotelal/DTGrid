@@ -93,13 +93,13 @@ public class DataGenerator {
 		return RANDOM.nextInt(seed);
 	}
 
-	public static final Map<Long, TestData> store() {
+	public static final Map<Long, TestData> store(int start) {
 		if (STORAGE.isEmpty()) {
-			generate(STORAGE, 1, 10000);
+			generate(STORAGE, 1, start);
 		}
-		if (STORAGE.size() == 10000) {
+		if (STORAGE.size() == start) {
 			new Thread(() -> {
-				generate(STORAGE, 10001, SIZE);
+				generate(STORAGE, start + 1, SIZE);
 			}).start();
 		}
 		return STORAGE;

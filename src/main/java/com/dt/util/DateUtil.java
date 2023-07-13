@@ -27,6 +27,10 @@ public class DateUtil {
 		return LocalDate.parse(date, DateTimeFormatter.ofPattern(format));
 	}
 
+	public static final LocalDate longToDate(long time) {
+		return LocalDate.ofInstant(Instant.ofEpochMilli(time), TimeZone.getDefault().toZoneId());
+	}
+
 	private DateUtil() {
 		throw new UnsupportedOperationException("Cannot instantiate  " + getClass().getName());
 	}

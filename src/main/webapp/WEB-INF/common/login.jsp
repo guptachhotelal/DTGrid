@@ -6,11 +6,6 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <%@include file="./include.jsp"%>
-<style type="text/css">
-body, html {
-	height: 100%;
-}
-</style>
 </head>
 <body>
 

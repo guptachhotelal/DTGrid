@@ -13,7 +13,7 @@ public class DataGeneratorTest {
 
 	@Test
 	public void testStore() {
-		Map<Long, TestData> store = DataGenerator.store();
+		Map<Long, TestData> store = DataGenerator.store(500);
 		assertNotNull(store);
 		assertFalse(store.isEmpty());
 	}

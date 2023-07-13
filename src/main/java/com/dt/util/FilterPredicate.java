@@ -27,8 +27,7 @@ public class FilterPredicate<T> implements Predicate<T> {
 					if ("serialversionuid".equals(field.getName())) {
 						continue;
 					}
-					Object value = field.get(t);
-					contains = String.valueOf(value).toLowerCase().contains(searchText);
+					contains = String.valueOf(field.get(t)).toLowerCase().contains(searchText);
 					if (contains) {
 						break OUTER;
 					}

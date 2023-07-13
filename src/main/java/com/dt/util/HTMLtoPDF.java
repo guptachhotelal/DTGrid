@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 
+import com.dt.entity.TestData;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -16,17 +19,19 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public final class HTMLtoPDF {
 
+	private static String TEMP_DIR = System.getProperty("java.io.tmpdir");
+
 	private static String USER_PASSWORD = "password";
 	private static String OWNER_PASSWORD = "password";
 
 	public static void main(String[] args) throws Exception {
-		pdf(html(), "Report" + System.currentTimeMillis() + ".pdf", false);
+		String html = html(DataGenerator.store(100).values().stream().collect(Collectors.toList()));
+		pdf(html, "Report" + System.nanoTime() + ".pdf", false);
 	}
 
 	private static void pdf(String html, String fileName, boolean protect) throws Exception {
 		Document document = new Document(PageSize.A4);
-		PdfWriter writer = PdfWriter.getInstance(document,
-				new FileOutputStream(System.getProperty("java.io.tmpdir") + File.separator + fileName));
+		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(TEMP_DIR + File.separator + fileName));
 		if (protect) {
 			writer.setEncryption(USER_PASSWORD.getBytes(), OWNER_PASSWORD.getBytes(), PdfWriter.ALLOW_PRINTING,
 					PdfWriter.ENCRYPTION_AES_256);
@@ -55,162 +60,33 @@ public final class HTMLtoPDF {
 		System.out.println("Done.");
 	}
 
-	private static String html() {
-		String html = "<!DOCTYPE html><html><head><title>Customer Report</title><style>"
+	private static String html(List<TestData> data) {
+		String html = "<!DOCTYPE html><html><head><title>Report</title><style>"
 				+ "html * {font-size: 12px;font-family: \"Arial\";}.headStyle {"
 				+ "background-color: #eaedfa;padding: 1px;border-radius: 40px;}th, td {"
 				+ "padding: 5px;}table {border-collapse: collapse;}"
-				+ "tr.border_bottom td, th {border-bottom: 1px solid #eeeeee;}</style></head>"
-				+ "<body><table style=\"width: 100%;height: 75px;\"><tbody><tr>" + "<td><img src=\"\""
-				+ "style=\"height: 50px; width: 140px;\" /></td>"
-				+ "<td style=\"text-align: right;\"><h1>All Customers Report</h1></td></tr></tbody></table>"
-				+ "<div class=\"headStyle\"><b>&nbsp;Basic Details</b></div>"
-				+ "<div style=\"padding-top: 10px;\"></div><table style=\"width: 60%;\"><tbody>"
-				+ "<tr><td>Khata download date</td><td>20-DEC-2019</td></tr><tr><td>Filtered by</td>"
-				+ "<td>&#8377;1,000 - &#8377;3,500 (Receivable)</td></tr></tbody>"
-				+ "</table><div style=\"padding-top: 10px;\"></div><div class=\"headStyle\">"
-				+ "<b>&nbsp;Customer-Wise Report</b></div><table style=\"width: 100%;\"><tbody>"
-				+ "<tr class=\"border_bottom\"><th style=\"text-align: left;\">Name</th>"
-				+ "<th style=\"text-align: right;\">Mobile No.</th>"
-				+ "<th style=\"text-align: right;\">Settlement Date</th>"
-				+ "<th style=\"text-align: right;\">Reminder Date</th>"
-				+ "<th style=\"text-align: right;\">Receivable(&#8377;)</th>"
-				+ "<th style=\"text-align: right;\">Advance(&#8377;)</th>"
-				+ "<th style=\"text-align: right;\">Khata Limit</th></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Anil Yadav</td><td style=\"text-align: right;\">9876543210</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1500.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">5000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Avinash Kundra</td><td style=\"text-align: right;\">9998979695</td>"
-				+ "<td style=\"text-align: right;\">15-DEC-2019</td><td style=\"text-align: right;\">28-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">1200.00</td><td style=\"text-align: right;\">2000.00</td>"
-				+ "<td style=\"text-align: right;\">3000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Achalesh Khare</td><td style=\"text-align: right;\">8786858483</td>"
-				+ "<td style=\"text-align: right;\">01-JAN-2020</td><td style=\"text-align: right;\">20-JAN-2020</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td><td style=\"text-align: right;\">--</td>"
-				+ "<td style=\"text-align: right;\">2000.00</td></tr>"
-				+ "<tr class=\"border_bottom\"><td>Bhavesh Singh</td><td style=\"text-align: right;\">7675747372</td>"
-				+ "<td style=\"text-align: right;\">10-DEC-2019</td><td style=\"text-align: right;\">20-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">500.00</td><td style=\"text-align: right;\">700.00</td>"
-				+ "<td style=\"text-align: right;\">1000.00</td></tr><tr class=\"border_bottom\"><td>Abc Yadav</td>"
-				+ "<td style=\"text-align: right;\">7879654646</td><td style=\"text-align: right;\">10-DEC-2019</td>"
-				+ "<td style=\"text-align: right;\">20-DEC-2019</td><td style=\"text-align: right;\">1500.00</td>"
-				+ "<td style=\"text-align: right;\">--</td><td style=\"text-align: right;\">3500.00</td></tr></tbody>"
-				+ "</table></body></html>";
+				+ "tr.border_bottom td, th {border: 1px solid #eeeeee;}</style></head><body>"
+
+				+ "<table style=\"width: 100%;\"><tbody><tr class=\"border_bottom\">"
+				+ "<th style=\"text-align: center;\">Sr No</th><th style=\"text-align: center;\">Name</th>"
+				+ "<th style=\"text-align: center;\">Date oF Birth</th>"
+				+ "<th style=\"text-align: center;\">Phone</th><th style=\"text-align: center;\">Email</th>"
+				+ "<th style=\"text-align: center;\">City</th><th style=\"text-align: center;\">Pincode</th>"
+				+ "<th style=\"text-align: center;\">State</th><th style=\"text-align: center;\">Create Date</th>"
+				+ "<th style=\"text-align: center;\">Update Date</th></tr>";
+
+		for (int i = 0; i < data.size(); i++) {
+			TestData td = data.get(i);
+			html = html + "<tr class=\"border_bottom\">" + "<td style=\"text-align: right;\">" + (i + 1) + "</td>"
+					+ "<td style=\"text-align: left;\">" + td.getName() + "</td><td style=\"text-align: left;\">"
+					+ DateUtil.longToDate(td.getDob()) + "</td><td style=\"text-align: left;\">" + td.getPhone()
+					+ "</td><td style=\"text-align: left;\">" + td.getEmail() + "</td>"
+					+ "<td style=\"text-align: left;\">" + td.getCity() + "</td><td style=\"text-align: right;\">"
+					+ td.getPincode() + "</td><td style=\"text-align: left;\">" + td.getState() + "</td>"
+					+ "<td style=\"text-align: left;\">" + DateUtil.longToDate(td.getCreateDate()) + "</td>"
+					+ "<td style=\"text-align: left;\">" + DateUtil.longToDate(td.getUpdateDate()) + "</td></tr>";
+		}
+		html = html + "</tbody></table></body></html>";
 		return html;
 	}
 }

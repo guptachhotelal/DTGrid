@@ -6,26 +6,6 @@
 <title>Home</title>
 <%@include file="../common/include.jsp"%>
 <script type="text/javascript" src="js/fetcher.js"></script>
-<style type="text/css">
-body {
-	overflow-y: scroll;
-	height: 100%;
-}
-
-.dataTables_filter {
-	float: left;
-}
-
-.dataTables_filter input {
-	min-width: 300px;
-}
-.dataTables_length select {
-	margin-top: 10px;
-}
-#tblList_paginate {
-	margin-top: 10px;
-}
-</style>
 </head>
 <body>
 
