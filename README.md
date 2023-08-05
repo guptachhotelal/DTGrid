@@ -17,7 +17,7 @@ A simple DataTable with Server-Side processing using Spring Boot
 
 * Clone the latest code [here](https://github.com/guptachhotelal/DTGrid),
 * Import the code in Eclispe/ Spring tool Suite
-* Run or Debug the solution and you'll have 10000000(configurable, depends RAM in your system) rows being server-side processed with DataTable plugin
+* Run or Debug the solution and you'll have 10000000(configurable, depends on RAM in your system) rows being server-side processed with DataTable plugin
 
 ## Branches
 
