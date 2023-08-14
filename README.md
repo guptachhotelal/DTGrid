@@ -33,8 +33,8 @@ A simple DataTable with Server-Side processing using Spring Boot
 * [fontawesome (v6.4.2)](https://fontawesome.com)
 * [Jsoup (v1.16.1)](https://jsoup.org/)
 * [springdoc-openapi-starter-webmvc-ui (v2.2.0)](https://springdoc.org/)
-* [iText] (v5.5.13.3)](https://itextpdf.com/products/itext-5-legacy)
-* [bcprov-jdk15on] (v1.70)](https://www.bouncycastle.org/)
+* [iText (v5.5.13.3)](https://itextpdf.com/products/itext-5-legacy)
+* [bcprov-jdk15on (v1.70)](https://www.bouncycastle.org/)
 
 
 ## Testing
