@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.2</version>
+		<version>3.1.5</version>
 		<relativePath />
 	</parent>
 	<groupId>com.dt</groupId>
@@ -21,7 +21,7 @@
 		<java.version>17</java.version>
 		<itext.version>5.5.13.3</itext.version>
 		<springdoc.version>2.2.0</springdoc.version>
-		<jsoup.version>1.16.1</jsoup.version>
+		<jsoup.version>1.16.2</jsoup.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -153,7 +153,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.21.0</version>
+				<version>3.21.2</version>
 				<configuration>
 					<failOnViolation>true</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
@@ -203,7 +203,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.2.2</version>
 				<executions>
 					<execution>
 						<phase>test</phase>
@@ -216,7 +216,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
+				<version>0.8.11</version>
 				<executions>
 					<execution>
 						<goals>
@@ -240,7 +240,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.3.1</version>
 			</plugin>
 		</plugins>
 	</reporting>
