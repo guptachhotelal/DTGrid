@@ -35,7 +35,7 @@ A simple DataTable with Server-Side processing using Spring Boot
 * [springdoc-openapi-starter-webmvc-ui (v2.2.0)](https://springdoc.org/)
 * [iText (v5.5.13.3)](https://itextpdf.com/products/itext-5-legacy)
 * [Apache PDFBox (v3.0.1)](https://pdfbox.apache.org/)
-* [bcprov-jdk15on (v1.70)](https://www.bouncycastle.org/)
+* [bcprov-jdk18on (v1.77)](https://www.bouncycastle.org/java.html)
 
 
 ## Testing
