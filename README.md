@@ -5,7 +5,7 @@ A simple DataTable with Server-Side processing using Spring Boot
 ## Table of Contents
 
 * [Getting Started](#getting-started)
-* [Code](https://github.com/guptachhotelal/DTGrid))
+* [Code](https://github.com/guptachhotelal/DTGrid)
 * [Branches](#branches)
 * [Dependencies](#dependencies)
 * [External libraries](#external-libraries)
