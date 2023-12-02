@@ -30,10 +30,11 @@ A simple DataTable with Server-Side processing using Spring Boot
 * [Datatables (v1.13.8)](https://datatables.net/)
 * [JSZip (v3.10.1)](https://stuk.github.io/jszip/)
 * [pdfmake (v0.2.8)](pdfmake.org)
-* [fontawesome (v6.4.2)](https://fontawesome.com)
-* [Jsoup (v1.16.2)](https://jsoup.org/)
+* [fontawesome (v6.5.1)](https://fontawesome.com)
+* [Jsoup (v1.17.1)](https://jsoup.org/)
 * [springdoc-openapi-starter-webmvc-ui (v2.2.0)](https://springdoc.org/)
 * [iText (v5.5.13.3)](https://itextpdf.com/products/itext-5-legacy)
+* [Apache PDFBox (v3.0.1)](https://pdfbox.apache.org/)
 * [bcprov-jdk15on (v1.70)](https://www.bouncycastle.org/)
 
 
