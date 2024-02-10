@@ -1,14 +1,18 @@
 package com.dt.util;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class FilterPredicate<T> implements Predicate<T> {
 
 	private String searchText;
+	private List<String> ignoreList;
 
-	public FilterPredicate(String searchText) {
+	public FilterPredicate(String searchText, String... ignoreFields) {
 		this.searchText = searchText;
+		this.ignoreList = Arrays.asList(ignoreFields);
 	}
 
 	@Override
@@ -24,7 +28,7 @@ public class FilterPredicate<T> implements Predicate<T> {
 				Field[] fields = clazz.getDeclaredFields();
 				for (Field field : fields) {
 					field.setAccessible(true);
-					if ("serialversionuid".equals(field.getName())) {
+					if ("serialversionuid".equals(field.getName()) || ignoreList.contains(searchText)) {
 						continue;
 					}
 					contains = String.valueOf(field.get(t)).toLowerCase().contains(searchText);

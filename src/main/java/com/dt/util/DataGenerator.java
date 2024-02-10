@@ -98,9 +98,9 @@ public class DataGenerator {
 			generate(STORAGE, 1, start);
 		}
 		if (STORAGE.size() == start) {
-			new Thread(() -> {
+			Thread.startVirtualThread(() -> {
 				generate(STORAGE, start + 1, SIZE);
-			}).start();
+			});
 		}
 		return STORAGE;
 	}

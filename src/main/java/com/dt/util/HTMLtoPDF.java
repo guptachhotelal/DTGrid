@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public final class HTMLtoPDF {
 	private static String OWNER_PASSWORD = "password";
 
 	public static void main(String[] args) throws Exception {
-		String html = html(DataGenerator.store(100).values().stream().collect(Collectors.toList()));
+		String html = html(DataGenerator.store(100).values());
 		pdf(html, "Report" + System.nanoTime() + ".pdf", false);
 	}
 
@@ -60,7 +61,7 @@ public final class HTMLtoPDF {
 		System.out.println("Done.");
 	}
 
-	private static String html(List<TestData> data) {
+	private static String html(Collection<TestData> collection) {
 		String html = "<!DOCTYPE html><html><head><title>Report</title><style>"
 				+ "html * {font-size: 12px;font-family: \"Arial\";}.headStyle {"
 				+ "background-color: #eaedfa;padding: 1px;border-radius: 40px;}th, td {"
@@ -74,7 +75,7 @@ public final class HTMLtoPDF {
 				+ "<th style=\"text-align: center;\">City</th><th style=\"text-align: center;\">Pincode</th>"
 				+ "<th style=\"text-align: center;\">State</th><th style=\"text-align: center;\">Create Date</th>"
 				+ "<th style=\"text-align: center;\">Update Date</th></tr>";
-
+		List<TestData> data = collection.stream().collect(Collectors.toList());
 		for (int i = 0; i < data.size(); i++) {
 			TestData td = data.get(i);
 			html = html + "<tr class=\"border_bottom\">" + "<td style=\"text-align: right;\">" + (i + 1) + "</td>"
