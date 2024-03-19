@@ -9,11 +9,18 @@ import org.junit.jupiter.api.Test;
 
 import com.dt.entity.TestData;
 
-public class DataGeneratorTest {
+class DataGeneratorTest {
 
 	@Test
-	public void testStore() {
-		Map<Long, TestData> store = DataGenerator.store(500);
+	void testStore() {
+		Map<Long, TestData> store = DataGenerator.store(100, false);
+		assertNotNull(store);
+		assertFalse(store.isEmpty());
+	}
+
+	@Test
+	void testStoredefault() {
+		Map<Long, TestData> store = DataGenerator.store(0, false);
 		assertNotNull(store);
 		assertFalse(store.isEmpty());
 	}

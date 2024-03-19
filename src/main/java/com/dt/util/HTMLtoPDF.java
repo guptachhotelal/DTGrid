@@ -8,7 +8,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 
@@ -25,14 +24,11 @@ public final class HTMLtoPDF {
 	private static String USER_PASSWORD = "password";
 	private static String OWNER_PASSWORD = "password";
 
-	public static void main(String[] args) throws Exception {
-		String html = html(DataGenerator.store(100).values());
-		pdf(html, "Report" + System.nanoTime() + ".pdf", false);
-	}
-
-	private static void pdf(String html, String fileName, boolean protect) throws Exception {
+	public static String pdf(String html, String fileName, boolean protect) throws Exception {
 		Document document = new Document(PageSize.A4);
-		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(TEMP_DIR + File.separator + fileName));
+		String filePath = TEMP_DIR + File.separator + fileName;
+		FileOutputStream fos = new FileOutputStream(filePath);
+		PdfWriter writer = PdfWriter.getInstance(document, fos);
 		if (protect) {
 			writer.setEncryption(USER_PASSWORD.getBytes(), OWNER_PASSWORD.getBytes(), PdfWriter.ALLOW_PRINTING,
 					PdfWriter.ENCRYPTION_AES_256);
@@ -58,36 +54,46 @@ public final class HTMLtoPDF {
 		is.close();
 		document.close();
 		writer.close();
-		System.out.println("Done.");
+		return filePath;
 	}
 
-	private static String html(Collection<TestData> collection) {
-		String html = "<!DOCTYPE html><html><head><title>Report</title><style>"
-				+ "html * {font-size: 12px;font-family: \"Arial\";}.headStyle {"
-				+ "background-color: #eaedfa;padding: 1px;border-radius: 40px;}th, td {"
-				+ "padding: 5px;}table {border-collapse: collapse;}"
-				+ "tr.border_bottom td, th {border: 1px solid #eeeeee;}</style></head><body>"
+	public static String html(Collection<TestData> collection) {
+		StringBuilder html = new StringBuilder();
+		html.append("<!DOCTYPE html><html><head><title>Report</title><style>)")
+				.append("html * {font-size: 12px;font-family: \"Arial\";}.headStyle {")
+				.append("background-color: #eaedfa;padding: 1px;border-radius: 40px;}th, td {")
+				.append("padding: 5px;}table {border-collapse: collapse;}")
+				.append("tr.border_bottom td, th {border: 1px solid #eeeeee;}</style></head><body>")
+				.append("<table style=\"width: 100%;\"><tbody><tr class=\"border_bottom\">")
+				.append("<th style=\"text-align: center;\">Sr No</th><th style=\"text-align: center;\">Name</th>")
+				.append("<th style=\"text-align: center;\">Date oF Birth</th>")
+				.append("<th style=\"text-align: center;\">Phone</th><th style=\"text-align: center;\">Email</th>")
+				.append("<th style=\"text-align: center;\">City</th><th style=\"text-align: center;\">Pincode</th>")
+				.append("<th style=\"text-align: center;\">State</th><th style=\"text-align: center;\">Create Date</th>")
+				.append("<th style=\"text-align: center;\">Update Date</th></tr>");
 
-				+ "<table style=\"width: 100%;\"><tbody><tr class=\"border_bottom\">"
-				+ "<th style=\"text-align: center;\">Sr No</th><th style=\"text-align: center;\">Name</th>"
-				+ "<th style=\"text-align: center;\">Date oF Birth</th>"
-				+ "<th style=\"text-align: center;\">Phone</th><th style=\"text-align: center;\">Email</th>"
-				+ "<th style=\"text-align: center;\">City</th><th style=\"text-align: center;\">Pincode</th>"
-				+ "<th style=\"text-align: center;\">State</th><th style=\"text-align: center;\">Create Date</th>"
-				+ "<th style=\"text-align: center;\">Update Date</th></tr>";
-		List<TestData> data = collection.stream().collect(Collectors.toList());
+		List<TestData> data = collection.stream().toList();
 		for (int i = 0; i < data.size(); i++) {
 			TestData td = data.get(i);
-			html = html + "<tr class=\"border_bottom\">" + "<td style=\"text-align: right;\">" + (i + 1) + "</td>"
-					+ "<td style=\"text-align: left;\">" + td.getName() + "</td><td style=\"text-align: left;\">"
-					+ DateUtil.longToDate(td.getDob()) + "</td><td style=\"text-align: left;\">" + td.getPhone()
-					+ "</td><td style=\"text-align: left;\">" + td.getEmail() + "</td>"
-					+ "<td style=\"text-align: left;\">" + td.getCity() + "</td><td style=\"text-align: right;\">"
-					+ td.getPincode() + "</td><td style=\"text-align: left;\">" + td.getState() + "</td>"
-					+ "<td style=\"text-align: left;\">" + DateUtil.longToDate(td.getCreateDate()) + "</td>"
-					+ "<td style=\"text-align: left;\">" + DateUtil.longToDate(td.getUpdateDate()) + "</td></tr>";
+			html.append("<tr class=\"border_bottom\">").append("<td style=\"text-align: right;\">").append((i + 1))
+					.append("</td>").append("<td style=\"text-align: left;\">").append(td.getName())
+					.append("</td><td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getDob()))
+					.append("</td><td style=\"text-align: left;\">").append(td.getPhone())
+					.append("</td><td style=\"text-align: left;\">").append(td.getEmail()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(td.getCity())
+					.append("</td><td style=\"text-align: right;\">").append(td.getPincode())
+					.append("</td><td style=\"text-align: left;\">").append(td.getState()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getCreateDate()))
+					.append("</td>").append("<td style=\"text-align: left;\">")
+					.append(DateUtil.longToDate(td.getUpdateDate())).append("</td></tr>");
 		}
-		html = html + "</tbody></table></body></html>";
-		return html;
+		html.append("</tbody></table></body></html>");
+		String temp = String.valueOf(html);
+		html.setLength(0);
+		return temp;
+	}
+
+	private HTMLtoPDF() {
+		throw new UnsupportedOperationException("Cannot instantiate  " + getClass().getName());
 	}
 }

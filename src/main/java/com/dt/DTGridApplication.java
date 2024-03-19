@@ -21,5 +21,4 @@ public class DTGridApplication extends SpringBootServletInitializer implements W
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(DTGridApplication.class);
 	}
-
 }

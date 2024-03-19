@@ -26,7 +26,7 @@ public class DataGenerator {
 	private int size;
 
 	@Value("${app.record.size}")
-	void setsize(int size) {
+	void setSize(int size) {
 		SIZE = size;
 	}
 
@@ -67,10 +67,10 @@ public class DataGenerator {
 
 			List<Integer> start = Arrays.asList(9, 8, 7, 6);
 			Collections.shuffle(start);
-			sb.append(start.stream().map(s -> String.valueOf(s)).collect(Collectors.joining()));
+			sb.append(start.stream().map(String::valueOf).collect(Collectors.joining()));
 			for (int j = 0; j < 6; j++) {
 				int num = index(10);
-				num = (num == 0) ? num += index(10) : num;
+				num = (num == 0) ? (num += index(10)) : num;
 				sb.append(num);
 			}
 
@@ -93,14 +93,13 @@ public class DataGenerator {
 		return RANDOM.nextInt(seed);
 	}
 
-	public static final Map<Long, TestData> store(int start) {
+	public static final Map<Long, TestData> store(int seed, boolean readSize) {
+		int start = seed <= 0 ? 1000 : seed;
 		if (STORAGE.isEmpty()) {
 			generate(STORAGE, 1, start);
 		}
-		if (STORAGE.size() == start) {
-			Thread.startVirtualThread(() -> {
-				generate(STORAGE, start + 1, SIZE);
-			});
+		if (STORAGE.size() == start && readSize) {
+			Thread.startVirtualThread(() -> Thread.startVirtualThread(() -> generate(STORAGE, start + 1, SIZE)));
 		}
 		return STORAGE;
 	}

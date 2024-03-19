@@ -1,22 +1,45 @@
 package com.dt.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.lang.reflect.Field;
 import java.util.Random;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import com.dt.DTGridApplicationTest;
+import com.dt.DTGridApplication;
 import com.dt.entity.TestData;
 
-public class DataControllerTest extends DTGridApplicationTest {
+import jakarta.annotation.Resource;
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = DTGridApplication.class)
+@AutoConfigureMockMvc
+class DataControllerTest {
+
+	@LocalServerPort
+	private int port;
+
+	@Resource
+	private MockMvc mockMvc;
+
+	@Resource
+	private WebApplicationContext context;
 
 	private static final int SORT_COLUMN = 1;
 	private static final int SORT_ORDER_ASC = 2;
@@ -35,8 +58,18 @@ public class DataControllerTest extends DTGridApplicationTest {
 	private static final String ADMIN_USER_NAME = "admin";
 	private static final String ADMIN_PASSWORD = "admin";
 
+	@BeforeEach
+	void setUp() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+	}
+
 	@Test
-	public void testListUser() throws Exception {
+	void testMockMvcNull() {
+		assertThat(mockMvc).isNotNull();
+	}
+
+	@Test
+	void testListUser() throws Exception {
 		// for user, password
 		print(mockMvc.perform(withUser("", "")).andExpect(status().isUnauthorized()));
 		print(mockMvc.perform(withUser(USER_NAME, "")).andExpect(status().isUnauthorized()));
@@ -52,7 +85,7 @@ public class DataControllerTest extends DTGridApplicationTest {
 	}
 
 	@Test
-	public void testSortColum() throws Exception {
+	void testSortColum() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, SORT_COLUMN)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, SORT_ORDER_ASC)).andExpect(status().isOk()));
@@ -60,21 +93,21 @@ public class DataControllerTest extends DTGridApplicationTest {
 	}
 
 	@Test
-	public void testSearch() throws Exception {
+	void testSearch() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, SEARCH_TEXT_EMPTY)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY)).andExpect(status().isOk()));
 	}
 
 	@Test
-	public void testStart() throws Exception {
+	void testStart() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, START_FROM_FIRST)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, START_FROM_OTHER)).andExpect(status().isOk()));
 	}
 
 	@Test
-	public void testPerPage() throws Exception {
+	void testPerPage() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, PER_PAGE_ZERO)).andExpect(status().isOk()));
 		print(mockMvc.perform(withField(request, PER_PAGE_NEGATIVE)).andExpect(status().isOk()));
@@ -119,5 +152,9 @@ public class DataControllerTest extends DTGridApplicationTest {
 	private String columnName() {
 		Field[] fields = TestData.class.getDeclaredFields();
 		return fields[new Random().nextInt(fields.length)].getName();
+	}
+
+	private String host() {
+		return "http://localhost:" + port + "/";
 	}
 }

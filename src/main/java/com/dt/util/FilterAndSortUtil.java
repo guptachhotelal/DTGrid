@@ -11,20 +11,20 @@ public class FilterAndSortUtil {
 
 	public static final <T> List<T> filter(Collection<T> data, String searchText) {
 		Predicate<T> predicate = new FilterPredicate<>(searchText);
-		return data.parallelStream().filter(predicate).collect(Collectors.toList());
+		return data.parallelStream().filter(predicate).toList();
 	}
 
 	public static final <T> List<T> sort(Collection<T> data, String sortColumn, boolean asc) {
 		Comparator<T> comparator = new FieldComparator<>(sortColumn, asc);
-		return data.parallelStream().sorted(comparator).collect(Collectors.toList());
+		return data.parallelStream().sorted(comparator).toList();
 	}
 
 	public static final <T> Map<Long, List<T>> filterAndSort(Collection<T> data, String searchText, int pgNumber,
 			int pgSize, String sortColumn, boolean asc) {
 		Predicate<T> predicate = new FilterPredicate<>(searchText);
 		Comparator<T> comparator = new FieldComparator<>(sortColumn, asc);
-		List<T> list = data.parallelStream().filter(predicate).sorted(comparator).collect(Collectors.toList());
-		return list.parallelStream().skip((pgNumber - 1) * pgSize).limit(pgSize)
+		List<T> list = data.parallelStream().filter(predicate).sorted(comparator).toList();
+		return list.parallelStream().skip((long) (pgNumber - 1) * pgSize).limit(pgSize)
 				.collect(Collectors.groupingBy(l -> Long.valueOf(list.size()), Collectors.toList()));
 	}
 

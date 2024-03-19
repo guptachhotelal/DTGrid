@@ -7,12 +7,32 @@ body {
 	float: left;
 }
 
+
 .dataTables_filter input {
 	min-width: 300px;
 }
+
+#dt-search-0 {
+	min-width: 300px;
+}
+
 .dataTables_length select {
 	margin-top: 10px;
 }
+
 #tblList_paginate {
 	margin-top: 10px;
+}
+
+#tblList_info {
+	vertical-align: top;
+	margin-top: -15px;
+}
+
+.dt-length {
+	margin-left: -300px;
+}
+
+div.dt-container div.dt-paging ul.pagination {
+	margin-top: -32px;
 }

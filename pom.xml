@@ -3,26 +3,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.2.3</version>
 		<relativePath />
 	</parent>
+
 	<groupId>com.dt</groupId>
 	<artifactId>DTGrid</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>DTGrid</name>
 	<description>Data Table Grid project for Spring Boot</description>
+
 	<properties>
 		<java.version>21</java.version>
 		<itext.version>5.5.13.3</itext.version>
-		<springdoc.version>2.3.0</springdoc.version>
+		<springdoc.version>2.4.0</springdoc.version>
 		<jsoup.version>1.17.2</jsoup.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,6 +80,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -85,6 +89,15 @@
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<activatedProperties>test</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 		</profile>
 		<profile>
@@ -229,6 +242,26 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>PACKAGE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>.99</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

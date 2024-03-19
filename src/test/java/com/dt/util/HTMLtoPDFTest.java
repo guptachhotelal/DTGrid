@@ -1,0 +1,86 @@
+package com.dt.util;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Map;
+
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
+import org.junit.jupiter.api.Test;
+
+import com.dt.entity.TestData;
+
+class HTMLtoPDFTest {
+
+	private static int seed = 1000;
+
+	@Test
+	void testInstantiation() throws Exception {
+		Constructor<HTMLtoPDF> constructor = HTMLtoPDF.class.getDeclaredConstructor();
+		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+		InvocationTargetException ite = assertThrows(InvocationTargetException.class, () -> {
+			constructor.setAccessible(true);
+			constructor.newInstance();
+		});
+		Exception ex = (UnsupportedOperationException) ite.getTargetException();
+		assertTrue(ex.getMessage().contains("Cannot"));
+	}
+
+	@Test
+	void testEmptyHTML() {
+		String html = HTMLtoPDF.html(Collections.emptyList());
+		Elements trs = Jsoup.parse(html).getElementsByTag("tr");
+		assertEquals(1, trs.size());
+	}
+
+	@Test
+	void testNonEmptyHTML() {
+		String html = HTMLtoPDF.html(DataGenerator.store(seed, false).values());
+		Elements trs = Jsoup.parse(html).getElementsByTag("tr");
+		assertEquals((seed + 1), trs.size());
+	}
+
+	@Test
+	void testEmptyPdf() throws Exception {
+		String html = HTMLtoPDF.html(Collections.emptyList());
+		String fileName = "Report" + System.nanoTime() + ".pdf";
+		String file = HTMLtoPDF.pdf(html, fileName, false);
+		Path path = Paths.get(file);
+		assertTrue(Files.exists(path));
+		Files.delete(path);
+	}
+
+	@Test
+	void testPdf() throws Exception {
+		Map<Long, TestData> map = DataGenerator.store(seed, false);
+		String html = HTMLtoPDF.html(map.values());
+		String fileName = "Report" + System.nanoTime() + ".pdf";
+		String file = HTMLtoPDF.pdf(html, fileName, false);
+		deleteFile(file);
+	}
+
+	@Test
+	void testProtectedPdf() throws Exception {
+		Map<Long, TestData> map = DataGenerator.store(seed, false);
+		String html = HTMLtoPDF.html(map.values());
+		String fileName = "Report" + System.nanoTime() + ".pdf";
+		String file = HTMLtoPDF.pdf(html, fileName, true);
+		deleteFile(file);
+	}
+
+	private void deleteFile(String filePath) throws IOException {
+		Path path = Paths.get(filePath);
+		assertTrue(Files.exists(path));
+		Files.delete(path);
+	}
+}

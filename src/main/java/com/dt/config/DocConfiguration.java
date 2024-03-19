@@ -8,19 +8,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
-
 //https://www.javaguides.net/2023/03/spring-boot-3-rest-api-documentation.html
 @Configuration
 public class DocConfiguration {
-
-	/*
-	 * @Bean GroupedOpenApi data() { return
-	 * GroupedOpenApi.builder().group(DocConstant.TAG_DATA)
-	 * .pathsToMatch(DocConstant.API_VERSION + "/" +
-	 * DocConstant.TAG_DATA_URL).build();
-	 * 
-	 * }
-	 */
 
 	@Bean
 	OpenAPI info() {

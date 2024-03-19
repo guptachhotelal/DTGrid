@@ -29,8 +29,6 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping(DocConstant.API_VERSION)
 public class DataController {
 
-	private static final int SEED = 100000;
-
 	@Operation(summary = "Fetches the data details", description = "This is used to fetch data details", responses = {
 			@ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
 			@ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(hidden = true))),
@@ -40,7 +38,7 @@ public class DataController {
 	public ResponseEntity<Map<String, Object>> list(HttpServletRequest request) {
 		log.info("Started at {}", LocalDateTime.now());
 		String sortColumn = request.getParameter("order[0][column]");
-		boolean asc = "asc".equals(request.getParameter("order[0][dir]")) || false;
+		boolean asc = "asc".equals(request.getParameter("order[0][dir]"));
 		String sText = request.getParameter("search[value]");
 		sText = Objects.isNull(sText) ? "" : sText.toLowerCase();
 		String sStart = request.getParameter("start");
@@ -51,7 +49,7 @@ public class DataController {
 		int pageNumber = start / length + 1;
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("draw", request.getParameter("draw"));
-		Map<Long, TestData> map = DataGenerator.store(SEED);
+		Map<Long, TestData> map = DataGenerator.store(1000, true);
 		dataMap.put("recordsTotal", map.size());
 		Map<Long, List<TestData>> fnsMap = FilterAndSortUtil.filterAndSort(map.values(), sText, pageNumber, length,
 				sortColumn, asc);

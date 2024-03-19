@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,10 +35,10 @@ public class AppSecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
 		http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-				.requestMatchers(mvc.pattern("/resources/**")).permitAll()
-				.requestMatchers(mvc.pattern("*/**")).hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
+				.requestMatchers(mvc.pattern("/resources/**")).permitAll().requestMatchers(mvc.pattern("*/**"))
+				.hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
 				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true))
-				.logout(logout -> logout.permitAll()).httpBasic(withDefaults());
+				.logout(LogoutConfigurer::permitAll).httpBasic(withDefaults());
 		return http.csrf(csrf -> csrf.disable()).build();
 	}
 

@@ -22,17 +22,21 @@ public class FieldComparator<T> implements Comparator<T> {
 			return val;
 		}
 		try {
-			Field field = t1.getClass().getDeclaredField(fieldName);
-			field.setAccessible(true);
-			Comparable<Object> cmp1 = (Comparable<Object>) field.get(t1);
-			Comparable<Object> cmp2 = (Comparable<Object>) field.get(t2);
+			Field field1 = t1.getClass().getDeclaredField(fieldName);
+			Field field2 = t2.getClass().getDeclaredField(fieldName);
 
-			if (Objects.isNull(cmp1))
+			field1.setAccessible(true);
+			field2.setAccessible(true);
+			Comparable<Object> cmp1 = (Comparable<Object>) field1.get(t1);
+			Comparable<Object> cmp2 = (Comparable<Object>) field2.get(t2);
+
+			if (Objects.isNull(cmp1)) {
 				val = -1;
-			else if (Objects.isNull(cmp2))
+			} else if (Objects.isNull(cmp2)) {
 				val = 1;
-			else
+			} else {
 				val = Objects.compare(cmp1, cmp2, asc ? Comparator.naturalOrder() : Comparator.reverseOrder());
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
