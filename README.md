@@ -27,7 +27,7 @@ A simple DataTable with Server-Side processing using Spring Boot
 
 * [bcprov-jdk18on (v1.77)](https://www.bouncycastle.org/java.html)
 * [Bootstrap (v5.3.3)](https://getbootstrap.com/)
-* [Datatables (v2.0.2)](https://datatables.net/)
+* [Datatables (v2.0.3)](https://datatables.net/)
 * [fontawesome (v6.5.1)](https://fontawesome.com)
 * [jQuery (v3.7.1)](https://jquery.com/)
 * [Jsoup (v1.17.2)](https://jsoup.org/)
