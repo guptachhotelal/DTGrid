@@ -30,10 +30,10 @@ public class FieldComparator<T> implements Comparator<T> {
 			Comparable<Object> cmp1 = (Comparable<Object>) field1.get(t1);
 			Comparable<Object> cmp2 = (Comparable<Object>) field2.get(t2);
 
-			if (Objects.isNull(cmp1)) {
-				val = -1;
-			} else if (Objects.isNull(cmp2)) {
+			if (Objects.isNull(cmp2)) {
 				val = 1;
+			} else if (Objects.isNull(cmp1)) {
+				val = -1;
 			} else {
 				val = Objects.compare(cmp1, cmp2, asc ? Comparator.naturalOrder() : Comparator.reverseOrder());
 			}

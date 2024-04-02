@@ -27,7 +27,17 @@ class FieldComparatorTest {
 	}
 
 	@Test
-	void testCompareWithTwoNullvalue() throws Exception {
+	void testCompareWittSecondNullvalue() {
+		List<TestData> list = new ArrayList<>();
+		Random random = new Random();
+		list.add(TestData.builder().city("Mumbai").build());
+		list.add(TestData.builder().build());
+		Collections.sort(list, new FieldComparator<>("city", random.nextBoolean()));
+		assertEquals(2, list.size());
+	}
+
+	@Test
+	void testCompareWithAllNullvalue() throws Exception {
 		List<TestData> list = new ArrayList<>();
 		Random random = new Random();
 		String column = columnName(random);
