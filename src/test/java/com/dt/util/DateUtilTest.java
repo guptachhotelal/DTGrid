@@ -9,7 +9,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-class DateUtilTest extends UtilClass {
+class DateUtilTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {

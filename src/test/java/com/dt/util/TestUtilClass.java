@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
-public class UtilClass {
+public class TestUtilClass {
 
 	public <T> Exception testUtilClass(Class<T> clazz) throws Exception {
 		Constructor<T> constructor = clazz.getDeclaredConstructor();

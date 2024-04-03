@@ -24,4 +24,11 @@ class DataGeneratorTest {
 		assertNotNull(store);
 		assertFalse(store.isEmpty());
 	}
+
+	@Test
+	void testStoredefaultReadSize() {
+		Map<Long, TestData> store = DataGenerator.store(0, true);
+		assertNotNull(store);
+		assertFalse(store.isEmpty());
+	}
 }

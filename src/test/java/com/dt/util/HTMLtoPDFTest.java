@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import com.dt.entity.TestData;
 
-class HTMLtoPDFTest extends UtilClass {
+class HTMLtoPDFTest extends TestUtilClass {
 
 	private static int seed = 1000;
 

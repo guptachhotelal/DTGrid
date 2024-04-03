@@ -1,5 +1,6 @@
 package com.dt.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import com.dt.entity.TestData;
 
-class FilterAndSortUtilTest extends UtilClass {
+class FilterAndSortUtilTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
@@ -28,6 +29,8 @@ class FilterAndSortUtilTest extends UtilClass {
 		list.add(TestData.builder().state("Delhi").build());
 		List<TestData> filtered = FilterAndSortUtil.filter(list, "Delhi");
 		assertFalse(filtered.isEmpty());
+		assertEquals(1, filtered.size());
+		assertEquals("Delhi", filtered.get(0).getState());
 	}
 
 	@Test

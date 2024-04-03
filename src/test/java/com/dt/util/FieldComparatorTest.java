@@ -19,57 +19,63 @@ class FieldComparatorTest {
 
 	@Test
 	void testCompareWithOneNullvalue() {
-		List<TestData> list = Stream.generate(TestData.builder()::build).limit(10).collect(Collectors.toList());
-		Random random = new Random();
+		Random random = random();
+		int size = random.nextInt(1, 11);
+		List<TestData> list = objects(size);
 		list.add(TestData.builder().build());
 		Collections.sort(list, new FieldComparator<>(columnName(random), random.nextBoolean()));
-		assertEquals(11, list.size());
+		assertEquals(size + 1, list.size());
 	}
 
 	@Test
 	void testCompareWittSecondNullvalue() {
 		List<TestData> list = new ArrayList<>();
-		Random random = new Random();
 		list.add(TestData.builder().city("Mumbai").build());
 		list.add(TestData.builder().build());
-		Collections.sort(list, new FieldComparator<>("city", random.nextBoolean()));
+		Collections.sort(list, new FieldComparator<>("city", random().nextBoolean()));
 		assertEquals(2, list.size());
 	}
 
 	@Test
 	void testCompareWithAllNullvalue() throws Exception {
-		List<TestData> list = new ArrayList<>();
-		Random random = new Random();
+		Random random = random();
+		int size = random.nextInt(1, 11);
+		List<TestData> list = objects(size);
 		String column = columnName(random);
 		while ("serialversionuid".equalsIgnoreCase(column)) {
 			random = new Random();
 			column = columnName(random);
 		}
-		list.add(TestData.builder().build());
-		list.add(TestData.builder().build());
-		list.add(TestData.builder().build());
-		list.add(TestData.builder().build());
-		list.add(TestData.builder().build());
 		Collections.sort(list, new FieldComparator<>(column, random.nextBoolean()));
-		assertEquals(5, list.size());
+		assertEquals(size, list.size());
 	}
 
 	@Test
 	void testCompare() {
-		List<TestData> list = Stream.generate(TestData.builder()::build).limit(10).collect(Collectors.toList());
-		Random random = new Random();
+		Random random = random();
+		int size = random.nextInt(1, 11);
+		List<TestData> list = objects(size);
 		Collections.sort(list, new FieldComparator<>(columnName(random), random.nextBoolean()));
-		assertEquals(10, list.size());
+		assertEquals(size, list.size());
 	}
 
 	@Test
 	void testCompareException() {
-		List<TestData> list = Stream.generate(TestData.builder()::build).limit(10).collect(Collectors.toList());
+		Random random = random();
+		int size = random.nextInt(1, 11);
+		List<TestData> list = objects(size);
 		list.add(null);
-		Random random = new Random();
 		assertThrows(Exception.class, () -> {
 			Collections.sort(list, new FieldComparator<>(columnName(random), random.nextBoolean()));
 		});
+	}
+
+	private List<TestData> objects(int size) {
+		return Stream.generate(TestData.builder()::build).limit(size).collect(Collectors.toList());
+	}
+
+	private Random random() {
+		return new Random();
 	}
 
 	private String columnName(Random random) {

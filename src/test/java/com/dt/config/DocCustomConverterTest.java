@@ -54,5 +54,5 @@ class DocCustomConverterTest {
 }
 
 @Schema
-class TestData1{}
-
+class TestData1 {
+}
