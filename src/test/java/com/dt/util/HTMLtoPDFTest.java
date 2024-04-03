@@ -1,13 +1,9 @@
 package com.dt.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,19 +16,13 @@ import org.junit.jupiter.api.Test;
 
 import com.dt.entity.TestData;
 
-class HTMLtoPDFTest {
+class HTMLtoPDFTest extends UtilClass {
 
 	private static int seed = 1000;
 
 	@Test
 	void testInstantiation() throws Exception {
-		Constructor<HTMLtoPDF> constructor = HTMLtoPDF.class.getDeclaredConstructor();
-		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-		InvocationTargetException ite = assertThrows(InvocationTargetException.class, () -> {
-			constructor.setAccessible(true);
-			constructor.newInstance();
-		});
-		Exception ex = (UnsupportedOperationException) ite.getTargetException();
+		Exception ex = testUtilClass(HTMLtoPDF.class);
 		assertTrue(ex.getMessage().contains("Cannot"));
 	}
 

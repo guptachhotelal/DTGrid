@@ -1,13 +1,9 @@
 package com.dt.util;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -17,17 +13,11 @@ import org.junit.jupiter.api.Test;
 
 import com.dt.entity.TestData;
 
-class FilterAndSortUtilTest {
+class FilterAndSortUtilTest extends UtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		Constructor<FilterAndSortUtil> constructor = FilterAndSortUtil.class.getDeclaredConstructor();
-		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-		InvocationTargetException ite = assertThrows(InvocationTargetException.class, () -> {
-			constructor.setAccessible(true);
-			constructor.newInstance();
-		});
-		Exception ex = (UnsupportedOperationException) ite.getTargetException();
+		Exception ex = testUtilClass(FilterAndSortUtil.class);
 		assertTrue(ex.getMessage().contains("Cannot"));
 	}
 

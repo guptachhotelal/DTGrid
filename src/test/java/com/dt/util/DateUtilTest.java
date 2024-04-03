@@ -1,29 +1,19 @@
 package com.dt.util;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-class DateUtilTest {
+class DateUtilTest extends UtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		Constructor<DateUtil> constructor = DateUtil.class.getDeclaredConstructor();
-		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-		InvocationTargetException ite = assertThrows(InvocationTargetException.class, () -> {
-			constructor.setAccessible(true);
-			constructor.newInstance();
-		});
-		Exception ex = (UnsupportedOperationException) ite.getTargetException();
+		Exception ex = testUtilClass(DateUtil.class);
 		assertTrue(ex.getMessage().contains("Cannot"));
 	}
 
