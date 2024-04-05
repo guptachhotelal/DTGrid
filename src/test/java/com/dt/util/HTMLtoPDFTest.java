@@ -18,12 +18,11 @@ import com.dt.entity.TestData;
 
 class HTMLtoPDFTest extends TestUtilClass {
 
-	private static int seed = 1000;
+	private static int seed = 10000;
 
 	@Test
 	void testInstantiation() throws Exception {
-		Exception ex = testUtilClass(HTMLtoPDF.class);
-		assertTrue(ex.getMessage().contains("Cannot"));
+		assertTrue(testUtilClass(HTMLtoPDF.class).getMessage().contains("Cannot"));
 	}
 
 	@Test

@@ -18,8 +18,7 @@ class FilterAndSortUtilTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		Exception ex = testUtilClass(FilterAndSortUtil.class);
-		assertTrue(ex.getMessage().contains("Cannot"));
+		assertTrue(testUtilClass(FilterAndSortUtil.class).getMessage().contains("Cannot"));
 	}
 
 	@Test

@@ -13,8 +13,7 @@ class DateUtilTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		Exception ex = testUtilClass(DateUtil.class);
-		assertTrue(ex.getMessage().contains("Cannot"));
+		assertTrue(testUtilClass(DateUtil.class).getMessage().contains("Cannot"));
 	}
 
 	@Test

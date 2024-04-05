@@ -50,5 +50,4 @@ class FilterPredicateTest {
 		Predicate<TestData> predicate = new FilterPredicate<>("Mum", "mum");
 		assertFalse(predicate.test(td));
 	}
-
 }
