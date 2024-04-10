@@ -58,8 +58,8 @@ public final class HTMLtoPDF {
 	}
 
 	public static String html(Collection<TestData> collection) {
-		StringBuilder html = new StringBuilder();
-		html.append("<!DOCTYPE html><html><head><title>Report</title><style>)")
+		StringBuilder temp = new StringBuilder();
+		temp.append("<!DOCTYPE html><html><head><title>Report</title><style>)")
 				.append("html * {font-size: 12px;font-family: \"Arial\";}.headStyle {")
 				.append("background-color: #eaedfa;padding: 1px;border-radius: 40px;}th, td {")
 				.append("padding: 5px;}table {border-collapse: collapse;}")
@@ -75,7 +75,7 @@ public final class HTMLtoPDF {
 		List<TestData> data = collection.stream().toList();
 		for (int i = 0; i < data.size(); i++) {
 			TestData td = data.get(i);
-			html.append("<tr class=\"border_bottom\">").append("<td style=\"text-align: right;\">").append((i + 1))
+			temp.append("<tr class=\"border_bottom\">").append("<td style=\"text-align: right;\">").append((i + 1))
 					.append("</td>").append("<td style=\"text-align: left;\">").append(td.getName())
 					.append("</td><td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getDob()))
 					.append("</td><td style=\"text-align: left;\">").append(td.getPhone())
@@ -87,10 +87,10 @@ public final class HTMLtoPDF {
 					.append("</td>").append("<td style=\"text-align: left;\">")
 					.append(DateUtil.longToDate(td.getUpdateDate())).append("</td></tr>");
 		}
-		html.append("</tbody></table></body></html>");
-		String temp = String.valueOf(html);
-		html.setLength(0);
-		return temp;
+		temp.append("</tbody></table></body></html>");
+		String html = String.valueOf(temp);
+		temp.setLength(0);
+		return html;
 	}
 
 	private HTMLtoPDF() {

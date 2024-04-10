@@ -24,7 +24,8 @@ class FilterPredicateTest {
 	void testTestForNull() {
 		new FilterPredicate<>(null);
 		Predicate<TestData> predicate = new FilterPredicate<>("serialversionuid", "serialversionuid");
-		assertThrows(RuntimeException.class, () -> predicate.test(null));
+		Exception ex = assertThrows(Exception.class, () -> predicate.test(null));
+		assertTrue((ex instanceof IllegalAccessException) || (ex instanceof RuntimeException));
 	}
 
 	@Test

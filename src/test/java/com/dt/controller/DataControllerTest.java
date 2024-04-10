@@ -1,6 +1,6 @@
 package com.dt.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -65,7 +65,7 @@ class DataControllerTest {
 
 	@Test
 	void testMockMvcNull() {
-		assertThat(mockMvc).isNotNull();
+		assertNotNull(mockMvc);
 	}
 
 	@Test

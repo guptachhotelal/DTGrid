@@ -9,11 +9,16 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
+import com.dt.TestUtilClass;
+
 class DateUtilTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		assertTrue(testUtilClass(DateUtil.class).getMessage().contains("Cannot"));
+		Throwable th = testUtilClass(DateUtil.class);
+		assertTrue(th instanceof UnsupportedOperationException);
+		UnsupportedOperationException usoe = (UnsupportedOperationException) th;
+		assertTrue(usoe.getMessage().contains("Cannot"));
 	}
 
 	@Test

@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 
+import com.dt.TestUtilClass;
 import com.dt.entity.TestData;
 
 class HTMLtoPDFTest extends TestUtilClass {
@@ -22,7 +23,10 @@ class HTMLtoPDFTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		assertTrue(testUtilClass(HTMLtoPDF.class).getMessage().contains("Cannot"));
+		Throwable th = testUtilClass(HTMLtoPDF.class);
+		assertTrue(th instanceof UnsupportedOperationException);
+		UnsupportedOperationException usoe = (UnsupportedOperationException) th;
+		assertTrue(usoe.getMessage().contains("Cannot"));
 	}
 
 	@Test

@@ -2,6 +2,7 @@ package com.dt.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -65,9 +66,11 @@ class FieldComparatorTest {
 		int size = random.nextInt(1, 11);
 		List<TestData> list = objects(size);
 		list.add(null);
-		assertThrows(Exception.class, () -> {
+		Exception ex = assertThrows(Exception.class, () -> {
 			Collections.sort(list, new FieldComparator<>(columnName(random), random.nextBoolean()));
 		});
+		assertTrue((ex instanceof IllegalAccessException) || (ex instanceof NoSuchFieldException)
+				|| (ex instanceof RuntimeException));
 	}
 
 	private List<TestData> objects(int size) {

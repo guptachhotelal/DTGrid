@@ -1,4 +1,4 @@
-package com.dt.util;
+package com.dt;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,13 +9,13 @@ import java.lang.reflect.Modifier;
 
 public class TestUtilClass {
 
-	public <T> Exception testUtilClass(Class<T> clazz) throws Exception {
+	public <T> Throwable testUtilClass(Class<T> clazz) throws Exception {
 		Constructor<T> constructor = clazz.getDeclaredConstructor();
 		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		InvocationTargetException ite = assertThrows(InvocationTargetException.class, () -> {
 			constructor.setAccessible(true);
 			constructor.newInstance();
 		});
-		return (UnsupportedOperationException) ite.getTargetException();
+		return ite.getTargetException();
 	}
 }

@@ -12,13 +12,17 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
+import com.dt.TestUtilClass;
 import com.dt.entity.TestData;
 
 class FilterAndSortUtilTest extends TestUtilClass {
 
 	@Test
 	void testInstantiation() throws Exception {
-		assertTrue(testUtilClass(FilterAndSortUtil.class).getMessage().contains("Cannot"));
+		Throwable th = testUtilClass(FilterAndSortUtil.class);
+		assertTrue(th instanceof UnsupportedOperationException);
+		UnsupportedOperationException usoe = (UnsupportedOperationException) th;
+		assertTrue(usoe.getMessage().contains("Cannot"));
 	}
 
 	@Test

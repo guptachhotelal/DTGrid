@@ -1,7 +1,8 @@
 package com.dt.config;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mockStatic;
 
 import java.util.Collections;
@@ -32,14 +33,14 @@ class DocCustomConverterTest {
 	void testQualifiedTypeNameResolverClassEmptyOptionsNull() {
 		DocCustomConverter.QualifiedTypeNameResolver tnr = new DocCustomConverter.QualifiedTypeNameResolver();
 		String name = tnr.nameForClass(TestData.class, Collections.emptySet());
-		assertThat(name).isNull();
+		assertNull(name);
 	}
 
 	@Test
 	void testQualifiedTypeNameResolverClassEmptyOptionsNonNull() {
 		DocCustomConverter.QualifiedTypeNameResolver tnr = new DocCustomConverter.QualifiedTypeNameResolver();
 		String name = tnr.nameForClass(TestData1.class, Collections.emptySet());
-		assertThat(name).isNotNull();
+		assertNotNull(name);
 	}
 
 	@Test
@@ -48,7 +49,7 @@ class DocCustomConverterTest {
 		Set<Options> options = new HashSet<>();
 		options.add(Options.SKIP_API_MODEL);
 		String name = tnr.nameForClass(TestData.class, options);
-		assertThat(name).isNotNull();
+		assertNotNull(name);
 		assertEquals(TestData.class.getSimpleName(), name);
 	}
 }

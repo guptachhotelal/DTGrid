@@ -1,7 +1,7 @@
 package com.dt;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,7 +12,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.UseMainMethod;
 
-@SpringBootTest(useMainMethod = UseMainMethod.WHEN_AVAILABLE)
+@SpringBootTest(useMainMethod = UseMainMethod.WHEN_AVAILABLE, classes = DTGridApplication.class)
 class DTGridApplicationTest {
 
 	@Mock
@@ -28,7 +28,7 @@ class DTGridApplicationTest {
 		DTGridApplication servletInitializer = new DTGridApplication();
 		when(springApplicationBuilder.sources(DTGridApplication.class)).thenReturn(springApplicationBuilder);
 		SpringApplicationBuilder result = servletInitializer.configure(springApplicationBuilder);
-		assertThat(result).isNotNull();
+		assertNotNull(result);
 		verify(springApplicationBuilder).sources(DTGridApplication.class);
 		assertEquals(springApplicationBuilder, result);
 	}
