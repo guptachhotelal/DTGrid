@@ -75,7 +75,7 @@ public final class HTMLtoPDF {
 		List<TestData> data = collection.stream().toList();
 		for (int i = 0; i < data.size(); i++) {
 			TestData td = data.get(i);
-			temp.append("<tr class=\"border_bottom\">").append("<td style=\"text-align: right;\">").append((i + 1))
+			temp.append("<tr class=\"border_bottom\">").append("<td style=\"text-align: right;\">").append(i + 1)
 					.append("</td>").append("<td style=\"text-align: left;\">").append(td.getName())
 					.append("</td><td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getDob()))
 					.append("</td><td style=\"text-align: left;\">").append(td.getPhone())
