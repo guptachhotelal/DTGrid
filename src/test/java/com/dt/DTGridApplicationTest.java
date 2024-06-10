@@ -7,16 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.UseMainMethod;
 
-@SpringBootTest(useMainMethod = UseMainMethod.WHEN_AVAILABLE, classes = DTGridApplication.class)
-class DTGridApplicationTest {
-
-	@Mock
-	private SpringApplicationBuilder springApplicationBuilder;
+class DTGridApplicationTest extends BaseApplicationTest {
 
 	@Test
 	void contextLoads() {

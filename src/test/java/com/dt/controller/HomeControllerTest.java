@@ -6,20 +6,12 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.ui.Model;
 
-import com.dt.DTGridApplication;
+import com.dt.BaseApplicationTest;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = DTGridApplication.class)
-class HomeControllerTest {
+class HomeControllerTest extends BaseApplicationTest {
 
 	private HomeController homeController;
-
-	@Mock
-	private Model model;
 
 	@BeforeEach
 	public void before() {

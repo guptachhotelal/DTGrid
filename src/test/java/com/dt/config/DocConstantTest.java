@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.dt.TestUtilClass;
+import com.dt.util.TestUtilClass;
 
 class DocConstantTest extends TestUtilClass {
 

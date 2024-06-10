@@ -9,8 +9,6 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-import com.dt.TestUtilClass;
-
 class DateUtilTest extends TestUtilClass {
 
 	@Test
