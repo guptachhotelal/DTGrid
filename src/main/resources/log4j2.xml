@@ -4,8 +4,7 @@
 
 	<Properties>
 		<property name="basePath">${catalina.home}/logs</property>
-		<property name="logPattern">%d{HH:mm:ss.SSS} [%t] [%-p] %C{3}.%M(%F:%L)
-			– %m%n</property>
+		<property name="logPattern">%d{HH:mm:ss.SSS} [%t] [%-p] %C{3}.%M(%F:%L) – %m%n</property>
 	</Properties>
 
 	<Appenders>

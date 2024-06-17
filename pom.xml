@@ -156,8 +156,23 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.22.0</version>
+				<version>3.23.0</version>
 				<configuration>
 					<failOnViolation>true</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
@@ -197,7 +212,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<argLine>-XX:+EnableDynamicAgentLoading</argLine>
 					<skipTests>false</skipTests>
 					<useFile>false</useFile>
 					<includes>
@@ -208,7 +222,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>3.2.5</version>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<phase>test</phase>
@@ -269,4 +283,5 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	
 </project>

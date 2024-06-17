@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.2//EN" "https://checkstyle.org/dtds/configuration_1_2.dtd">
+<module name="Checker">
+	<module name="JavadocPackage" />
+	<module name="FileLength">
+		<property name="max" value="150" />
+	</module>
+	<module name="TreeWalker">
+		<module name="AvoidStarImport">
+			<property name="severity" value="warning" />
+		</module>
+		<module name="ConstantName" />
+		<module name="EmptyBlock" />
+		<module name="MethodCount">
+			<property name="maxTotal" value="30" />
+		</module>
+		<module name="ParameterNumber">
+			<property name="max" value="7" />
+			<property name="tokens" value="METHOD_DEF" />
+		</module>
+		<module name="MethodLength">
+			<property name="tokens" value="METHOD_DEF" />
+			<property name="max" value="50" />
+		</module>
+		<module name="MethodLength">
+			<property name="tokens" value="CTOR_DEF" />
+			<property name="max" value="50" />
+		</module>
+	</module>
+</module>
