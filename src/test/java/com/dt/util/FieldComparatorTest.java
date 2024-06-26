@@ -69,8 +69,8 @@ class FieldComparatorTest {
 		Exception ex = assertThrows(Exception.class, () -> {
 			Collections.sort(list, new FieldComparator<>(columnName(random), random.nextBoolean()));
 		});
-		assertTrue((ex instanceof IllegalAccessException) || (ex instanceof NoSuchFieldException)
-				|| (ex instanceof RuntimeException));
+		assertTrue(IllegalAccessException.class == ex.getClass() || NoSuchFieldException.class == ex.getClass()
+				|| RuntimeException.class == ex.getClass());
 	}
 
 	private List<TestData> objects(int size) {

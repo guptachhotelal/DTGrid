@@ -1,5 +1,6 @@
 package com.dt.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +15,7 @@ class DateUtilTest extends TestUtilClass {
 	@Test
 	void testInstantiation() throws Exception {
 		Throwable th = testUtilClass(DateUtil.class);
-		assertTrue(th instanceof UnsupportedOperationException);
+		assertEquals(UnsupportedOperationException.class, th.getClass());
 		UnsupportedOperationException usoe = (UnsupportedOperationException) th;
 		assertTrue(usoe.getMessage().contains("Cannot"));
 	}

@@ -19,7 +19,7 @@ class FilterAndSortUtilTest extends TestUtilClass {
 	@Test
 	void testInstantiation() throws Exception {
 		Throwable th = testUtilClass(FilterAndSortUtil.class);
-		assertTrue(th instanceof UnsupportedOperationException);
+		assertEquals(UnsupportedOperationException.class, th.getClass());
 		UnsupportedOperationException usoe = (UnsupportedOperationException) th;
 		assertTrue(usoe.getMessage().contains("Cannot"));
 	}
