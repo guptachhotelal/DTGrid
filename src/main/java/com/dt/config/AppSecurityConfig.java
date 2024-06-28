@@ -27,6 +27,8 @@ import jakarta.servlet.DispatcherType;
 @EnableWebSecurity
 public class AppSecurityConfig {
 
+	private static final String[] ROLES = { "USER", "ADMIN" };
+
 	@PostConstruct
 	public void initialize() {
 		DocCustomConverter.add(new ObjectMapper());
@@ -36,7 +38,7 @@ public class AppSecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
 		http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 				.requestMatchers(mvc.pattern("/resources/**")).permitAll().requestMatchers(mvc.pattern("*/**"))
-				.hasAnyRole("USER", "ADMIN").anyRequest().authenticated())
+				.hasAnyRole(ROLES).anyRequest().authenticated())
 				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true))
 				.logout(LogoutConfigurer::permitAll).httpBasic(withDefaults());
 		return http.csrf(csrf -> csrf.disable()).build();
@@ -51,8 +53,8 @@ public class AppSecurityConfig {
 	@Bean
 	UserDetailsService userDetailsService() {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		UserDetails admin = User.withUsername("admin").password(encoder.encode("admin")).roles("ADMIN").build();
-		UserDetails user = User.withUsername("user").password(encoder.encode("user")).roles("USER").build();
+		UserDetails admin = User.withUsername("admin").password(encoder.encode("admin")).roles(ROLES[0]).build();
+		UserDetails user = User.withUsername("user").password(encoder.encode("user")).roles(ROLES[1]).build();
 		return new InMemoryUserDetailsManager(admin, user);
 	}
 }

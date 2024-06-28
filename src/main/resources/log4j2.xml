@@ -11,8 +11,7 @@
 		<Console name="consoleApp" target="SYSTEM_OUT">
 			<PatternLayout pattern="${logPattern}" />
 		</Console>
-		<RollingFile name="fileApp" fileName="${basePath}/pos.log"
-			filePattern="${basePath}/$${date:yyyy-MM}/pos-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="fileApp" fileName="${basePath}/pos.log" filePattern="${basePath}/$${date:yyyy-MM}/pos-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${logPattern}</Pattern>
 			</PatternLayout>
