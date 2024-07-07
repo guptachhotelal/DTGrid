@@ -34,7 +34,7 @@ A simple DataTable with Server-Side processing using Spring Boot
 * [JSZip (v3.10.1)](https://stuk.github.io/jszip/)
 * [iText (v5.5.13.3)](https://itextpdf.com/products/itext-5-legacy)
 * [pdfmake (v0.2.10)](pdfmake.org)
-* [springdoc-openapi-starter-webmvc-ui (v2.5.0)](https://springdoc.org/)
+* [springdoc-openapi-starter-webmvc-ui (v2.6.0)](https://springdoc.org/)
 
 
 ## Testing

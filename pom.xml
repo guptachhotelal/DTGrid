@@ -21,8 +21,8 @@
 
 	<properties>
 		<java.version>21</java.version>
-		<itext.version>5.5.13.3</itext.version>
-		<springdoc.version>2.5.0</springdoc.version>
+		<itext.version>5.5.13.4</itext.version>
+		<springdoc.version>2.6.0</springdoc.version>
 		<jsoup.version>1.17.2</jsoup.version>
 	</properties>
 
