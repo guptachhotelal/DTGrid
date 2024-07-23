@@ -1,22 +1,22 @@
 package com.dt.controller;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.lang.reflect.Field;
 import java.util.Random;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -55,58 +55,58 @@ class DataControllerTest extends BaseApplicationTest {
 
 	@BeforeEach
 	void setUp() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
 
 	@Test
 	void testMockMvcNull() {
-		assertNotNull(mockMvc);
+		Assertions.assertNotNull(mockMvc);
 	}
 
 	@Test
 	void testListUser() throws Exception {
 		// for user, password
-		print(mockMvc.perform(withUser("", "")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser(USER_NAME, "")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("", USER_PASSWORD)).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser(USER_NAME, USER_PASSWORD)).andExpect(status().isOk()));
+		print(mockMvc.perform(withUser("", "")).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser(USER_NAME, "")).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser("", USER_PASSWORD)).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser(USER_NAME, USER_PASSWORD)).andExpect(MockMvcResultMatchers.status().isOk()));
 
 		// for admin. password
-		print(mockMvc.perform(withUser(ADMIN_USER_NAME, "")).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser("", ADMIN_PASSWORD)).andExpect(status().isUnauthorized()));
-		print(mockMvc.perform(withUser(ADMIN_USER_NAME, ADMIN_PASSWORD)).andExpect(status().isOk()));
+		print(mockMvc.perform(withUser(ADMIN_USER_NAME, "")).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser("", ADMIN_PASSWORD)).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser(ADMIN_USER_NAME, ADMIN_PASSWORD)).andExpect(MockMvcResultMatchers.status().isOk()));
 
-		print(mockMvc.perform(withUser("wronguser", "wrongpassword")).andExpect(status().isUnauthorized()));
+		print(mockMvc.perform(withUser("wronguser", "wrongpassword")).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
 	}
 
 	@Test
 	void testSortColum() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
-		print(mockMvc.perform(withField(request, SORT_COLUMN)).andExpect(status().isOk()));
-		print(mockMvc.perform(withField(request, SORT_ORDER_ASC)).andExpect(status().isOk()));
-		print(mockMvc.perform(withField(request, SORT_ORDER_DESC)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, SORT_COLUMN)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, SORT_ORDER_ASC)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, SORT_ORDER_DESC)).andExpect(MockMvcResultMatchers.status().isOk()));
 	}
 
 	@Test
 	void testSearch() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
-		print(mockMvc.perform(withField(request, SEARCH_TEXT_EMPTY)).andExpect(status().isOk()));
-		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, SEARCH_TEXT_EMPTY)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY)).andExpect(MockMvcResultMatchers.status().isOk()));
 	}
 
 	@Test
 	void testStart() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
-		print(mockMvc.perform(withField(request, START_FROM_FIRST)).andExpect(status().isOk()));
-		print(mockMvc.perform(withField(request, START_FROM_OTHER)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, START_FROM_FIRST)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, START_FROM_OTHER)).andExpect(MockMvcResultMatchers.status().isOk()));
 	}
 
 	@Test
 	void testPerPage() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
-		print(mockMvc.perform(withField(request, PER_PAGE_ZERO)).andExpect(status().isOk()));
-		print(mockMvc.perform(withField(request, PER_PAGE_NEGATIVE)).andExpect(status().isOk()));
-		print(mockMvc.perform(withField(request, PER_PAGE_POSITIVE)).andExpect(status().isOk()));
+		print(mockMvc.perform(withField(request, PER_PAGE_ZERO)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, PER_PAGE_NEGATIVE)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, PER_PAGE_POSITIVE)).andExpect(MockMvcResultMatchers.status().isOk()));
 	}
 
 	private RequestBuilder withField(MockHttpServletRequestBuilder request, int condition) {
@@ -137,7 +137,7 @@ class DataControllerTest extends BaseApplicationTest {
 	}
 
 	private MockHttpServletRequestBuilder withUser(String user, String password) {
-		return post(host() + "v1/data").with(httpBasic(user, password));
+		return MockMvcRequestBuilders.post(host() + "v1/data").with(SecurityMockMvcRequestPostProcessors.httpBasic(user, password));
 	}
 
 	private void print(ResultActions action) throws Exception {

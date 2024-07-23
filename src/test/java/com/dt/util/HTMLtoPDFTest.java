@@ -39,7 +39,7 @@ class HTMLtoPDFTest extends TestUtilClass {
 	void testNonEmptyHTML() {
 		String html = HTMLtoPDF.html(DataGenerator.store(seed, false).values());
 		Elements trs = Jsoup.parse(html).getElementsByTag("tr");
-		assertEquals((seed + 1), trs.size());
+		assertEquals(seed + 1, trs.size());
 	}
 
 	@Test
