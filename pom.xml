@@ -22,8 +22,9 @@
 	<properties>
 		<java.version>21</java.version>
 		<itext.version>5.5.13.4</itext.version>
-		<springdoc.version>2.6.0</springdoc.version>
 		<jsoup.version>1.18.1</jsoup.version>
+		<bouncycastle.version>1.78.1</bouncycastle.version>
+		<springdoc.version>2.6.0</springdoc.version>
 	</properties>
 
 	<dependencies>
@@ -62,7 +63,7 @@
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk18on</artifactId>
-			<version>1.78.1</version>
+			<version>${bouncycastle.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
