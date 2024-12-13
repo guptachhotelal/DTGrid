@@ -22,7 +22,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<itext.version>5.5.13.4</itext.version>
-		<jsoup.version>1.18.2</jsoup.version>
+		<jsoup.version>1.18.3</jsoup.version>
 		<bouncycastle.version>1.79</bouncycastle.version>
 		<springdoc.version>2.7.0</springdoc.version>
 	</properties>
