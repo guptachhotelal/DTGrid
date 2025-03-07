@@ -49,7 +49,7 @@ public class DataController {
 		int pageNumber = start / length + 1;
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("draw", request.getParameter("draw"));
-		Map<Long, TestData> map = DataGenerator.store(1000, true);
+		Map<Long, TestData> map = DataGenerator.store(10000, true);
 		dataMap.put("recordsTotal", map.size());
 		Map<Long, List<TestData>> fnsMap = FilterAndSortUtil.filterAndSort(map.values(), sText, pageNumber, length,
 				sortColumn, asc);
