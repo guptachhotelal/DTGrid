@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
@@ -20,15 +19,7 @@ import com.dt.entity.TestData;
 @PropertySource({ "classpath:/dtgrid-${spring.profiles.active}.properties" })
 public class DataGenerator {
 
-	private static int SIZE;
-
-	@Value("${app.record.size}")
-	private int size;
-
-	@Value("${app.record.size}")
-	void setSize(int size) {
-		SIZE = size;
-	}
+	private static boolean started = false;
 
 	private static final char[] CHARS = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
 			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -53,7 +44,7 @@ public class DataGenerator {
 		return ThreadLocalRandom.current().nextLong(endMillis, startMillis);
 	}
 
-	private static void generate(Map<Long, TestData> map, int from, int to) {
+	private static void create(Map<Long, TestData> map, int from, int to) {
 		int charLen = CHARS.length;
 		int cityLen = CPS.length;
 		StringBuilder sb = new StringBuilder();
@@ -93,14 +84,20 @@ public class DataGenerator {
 		return RANDOM.nextInt(seed);
 	}
 
-	public static final Map<Long, TestData> store(int seed, boolean readSize) {
-		int start = seed <= 0 ? 1000 : seed;
-		if (STORAGE.isEmpty()) {
-			generate(STORAGE, 1, start);
-		}
-		if (STORAGE.size() == start && readSize) {
-			Thread.startVirtualThread(() -> generate(STORAGE, start + 1, SIZE));
-		}
+	public static final Map<Long, TestData> store() {
 		return STORAGE;
+	}
+
+	public static final void generate(int start, int end, boolean readSize) {
+		if (!started) {
+			started = true;
+			int seed = start <= 0 ? 1000 : start;
+			if (STORAGE.isEmpty()) {
+				create(STORAGE, 1, seed);
+			}
+			if (STORAGE.size() == seed && readSize) {
+				Thread.startVirtualThread(() -> create(STORAGE, seed + 1, end));
+			}
+		}
 	}
 }

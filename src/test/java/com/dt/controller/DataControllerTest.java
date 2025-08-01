@@ -1,6 +1,5 @@
 package com.dt.controller;
 
-
 import java.lang.reflect.Field;
 import java.util.Random;
 
@@ -20,12 +19,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.dt.BaseApplicationTest;
+import com.dt.DTGridApplicationTest;
 import com.dt.entity.TestData;
 
 import jakarta.annotation.Resource;
 
-class DataControllerTest extends BaseApplicationTest {
+class DataControllerTest extends DTGridApplicationTest {
 
 	@LocalServerPort
 	private int port;
@@ -55,7 +54,8 @@ class DataControllerTest extends BaseApplicationTest {
 
 	@BeforeEach
 	void setUp() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(SecurityMockMvcConfigurers.springSecurity()).build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(SecurityMockMvcConfigurers.springSecurity())
+				.build();
 	}
 
 	@Test
@@ -72,11 +72,14 @@ class DataControllerTest extends BaseApplicationTest {
 		print(mockMvc.perform(withUser(USER_NAME, USER_PASSWORD)).andExpect(MockMvcResultMatchers.status().isOk()));
 
 		// for admin. password
-		print(mockMvc.perform(withUser(ADMIN_USER_NAME, "")).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser(ADMIN_USER_NAME, ""))
+				.andExpect(MockMvcResultMatchers.status().isUnauthorized()));
 		print(mockMvc.perform(withUser("", ADMIN_PASSWORD)).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
-		print(mockMvc.perform(withUser(ADMIN_USER_NAME, ADMIN_PASSWORD)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withUser(ADMIN_USER_NAME, ADMIN_PASSWORD))
+				.andExpect(MockMvcResultMatchers.status().isOk()));
 
-		print(mockMvc.perform(withUser("wronguser", "wrongpassword")).andExpect(MockMvcResultMatchers.status().isUnauthorized()));
+		print(mockMvc.perform(withUser("wronguser", "wrongpassword"))
+				.andExpect(MockMvcResultMatchers.status().isUnauthorized()));
 	}
 
 	@Test
@@ -91,7 +94,8 @@ class DataControllerTest extends BaseApplicationTest {
 	void testSearch() throws Exception {
 		MockHttpServletRequestBuilder request = withUser(ADMIN_USER_NAME, ADMIN_PASSWORD);
 		print(mockMvc.perform(withField(request, SEARCH_TEXT_EMPTY)).andExpect(MockMvcResultMatchers.status().isOk()));
-		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY)).andExpect(MockMvcResultMatchers.status().isOk()));
+		print(mockMvc.perform(withField(request, SEARCH_TEXT_NON_EMPTY))
+				.andExpect(MockMvcResultMatchers.status().isOk()));
 	}
 
 	@Test
@@ -137,7 +141,8 @@ class DataControllerTest extends BaseApplicationTest {
 	}
 
 	private MockHttpServletRequestBuilder withUser(String user, String password) {
-		return MockMvcRequestBuilders.post(host() + "v1/data").with(SecurityMockMvcRequestPostProcessors.httpBasic(user, password));
+		return MockMvcRequestBuilders.post(host() + "v1/data")
+				.with(SecurityMockMvcRequestPostProcessors.httpBasic(user, password));
 	}
 
 	private void print(ResultActions action) throws Exception {

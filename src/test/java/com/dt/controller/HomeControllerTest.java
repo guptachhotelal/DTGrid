@@ -6,12 +6,18 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.ui.Model;
 
-import com.dt.BaseApplicationTest;
-
-class HomeControllerTest extends BaseApplicationTest {
+@ExtendWith(SpringExtension.class)
+class HomeControllerTest {
 
 	private HomeController homeController;
+
+	@Mock
+	protected Model model;
 
 	@BeforeEach
 	public void before() {

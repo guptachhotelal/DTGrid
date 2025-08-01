@@ -18,7 +18,7 @@ import com.dt.entity.TestData;
 
 class HTMLtoPDFTest extends TestUtilClass {
 
-	private static int seed = 10000;
+	private static int seed = 1000;
 
 	@Test
 	void testInstantiation() throws Exception {
@@ -37,7 +37,8 @@ class HTMLtoPDFTest extends TestUtilClass {
 
 	@Test
 	void testNonEmptyHTML() {
-		String html = HTMLtoPDF.html(DataGenerator.store(seed, false).values());
+		DataGenerator.generate(seed, 1000, false);
+		String html = HTMLtoPDF.html(DataGenerator.store().values());
 		Elements trs = Jsoup.parse(html).getElementsByTag("tr");
 		assertEquals(seed + 1, trs.size());
 	}
@@ -54,7 +55,8 @@ class HTMLtoPDFTest extends TestUtilClass {
 
 	@Test
 	void testPdf() throws Exception {
-		Map<Long, TestData> map = DataGenerator.store(seed, false);
+		DataGenerator.generate(seed, 1000, false);
+		Map<Long, TestData> map = DataGenerator.store();
 		String html = HTMLtoPDF.html(map.values());
 		String fileName = "Report" + System.nanoTime() + ".pdf";
 		String file = HTMLtoPDF.pdf(html, fileName, false);
@@ -63,7 +65,8 @@ class HTMLtoPDFTest extends TestUtilClass {
 
 	@Test
 	void testProtectedPdf() throws Exception {
-		Map<Long, TestData> map = DataGenerator.store(seed, false);
+		DataGenerator.generate(seed, 1000, false);
+		Map<Long, TestData> map = DataGenerator.store();
 		String html = HTMLtoPDF.html(map.values());
 		String fileName = "Report" + System.nanoTime() + ".pdf";
 		String file = HTMLtoPDF.pdf(html, fileName, true);

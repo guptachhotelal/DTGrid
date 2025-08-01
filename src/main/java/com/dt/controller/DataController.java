@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dt.config.DocConstant;
 import com.dt.entity.TestData;
-import com.dt.util.DataGenerator;
+import com.dt.service.ASyncService;
 import com.dt.util.FilterAndSortUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
@@ -29,6 +30,9 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping(DocConstant.API_VERSION)
 public class DataController {
 
+	@Resource
+	private ASyncService aService;
+
 	@Operation(summary = "Fetches the data details", description = "This is used to fetch data details", responses = {
 			@ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
 			@ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(hidden = true))),
@@ -36,6 +40,7 @@ public class DataController {
 					DocConstant.TAG_DATA })
 	@PostMapping(value = DocConstant.TAG_DATA_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> list(HttpServletRequest request) {
+		aService.generate();
 		log.info("Started at {}", LocalDateTime.now());
 		String sortColumn = request.getParameter("order[0][column]");
 		boolean asc = "asc".equals(request.getParameter("order[0][dir]"));
@@ -49,7 +54,7 @@ public class DataController {
 		int pageNumber = start / length + 1;
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("draw", request.getParameter("draw"));
-		Map<Long, TestData> map = DataGenerator.store(10000, true);
+		Map<Long, TestData> map = aService.store();
 		dataMap.put("recordsTotal", map.size());
 		Map<Long, List<TestData>> fnsMap = FilterAndSortUtil.filterAndSort(map.values(), sText, pageNumber, length,
 				sortColumn, asc);

@@ -13,21 +13,24 @@ class DataGeneratorTest {
 
 	@Test
 	void testStore() {
-		Map<Long, TestData> store = DataGenerator.store(100, false);
+		DataGenerator.generate(100, 10000, false);
+		Map<Long, TestData> store = DataGenerator.store();
 		assertNotNull(store);
 		assertFalse(store.isEmpty());
 	}
 
 	@Test
 	void testStoredefault() {
-		Map<Long, TestData> store = DataGenerator.store(0, false);
+		DataGenerator.generate(100, 10000, false);
+		Map<Long, TestData> store = DataGenerator.store();
 		assertNotNull(store);
 		assertFalse(store.isEmpty());
 	}
 
 	@Test
 	void testStoredefaultReadSize() {
-		Map<Long, TestData> store = DataGenerator.store(0, true);
+		DataGenerator.generate(0, 1000, true);
+		Map<Long, TestData> store = DataGenerator.store();
 		assertNotNull(store);
 		assertFalse(store.isEmpty());
 	}

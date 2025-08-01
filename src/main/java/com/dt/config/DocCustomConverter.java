@@ -21,7 +21,7 @@ public class DocCustomConverter extends ModelResolver {
 	}
 
 	static class QualifiedTypeNameResolver extends TypeNameResolver {
-		
+
 		@Override
 		protected String nameForClass(Class<?> cls, Set<Options> options) {
 			String clazzName = cls.getSimpleName();
