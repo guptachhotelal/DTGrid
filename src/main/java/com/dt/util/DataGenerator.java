@@ -96,7 +96,7 @@ public class DataGenerator {
 				create(STORAGE, 1, seed);
 			}
 			if (STORAGE.size() == seed && readSize) {
-				Thread.startVirtualThread(() -> create(STORAGE, seed + 1, end));
+				create(STORAGE, seed + 1, end);
 			}
 		}
 	}

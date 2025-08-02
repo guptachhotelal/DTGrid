@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
@@ -30,8 +29,11 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping(DocConstant.API_VERSION)
 public class DataController {
 
-	@Resource
 	private ASyncService aService;
+
+	public DataController(ASyncService aService) {
+		this.aService = aService;
+	}
 
 	@Operation(summary = "Fetches the data details", description = "This is used to fetch data details", responses = {
 			@ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
