@@ -26,15 +26,15 @@ A simple DataTable with Server-Side processing using Spring Boot
 ## External libraries
 
 * [bcprov-jdk18on (v1.81)](https://www.bouncycastle.org/java.html)
-* [Bootstrap (v5.3.7)](https://getbootstrap.com/)
-* [Datatables (v2.3.2)](https://datatables.net/)
-* [fontawesome (v7.0.0)](https://fontawesome.com)
+* [Bootstrap (v5.3.8)](https://getbootstrap.com/)
+* [Datatables (v2.3.3)](https://datatables.net/)
+* [fontawesome (v7.0.1)](https://fontawesome.com)
 * [iText (v5.5.13.4)](https://itextpdf.com/products/itext-5-legacy)
 * [jQuery (v3.7.1)](https://jquery.com/)
-* [Jsoup (v1.21.1)](https://jsoup.org/)
+* [Jsoup (v1.21.2)](https://jsoup.org/)
 * [JSZip (v3.10.1)](https://stuk.github.io/jszip/)
 * [pdfmake (v0.2.12)](pdfmake.org)
-* [springdoc-openapi-starter-webmvc-ui (v2.8.9)](https://springdoc.org/)
+* [springdoc-openapi-starter-webmvc-ui (v2.8.11)](https://springdoc.org/)
 
 ## Testing
 

@@ -18,11 +18,11 @@
             <form:form action="login" method="post">
             <legend class="text-center">Sign In</legend>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control shadow-none border-0 border-bottom" id="floatingInput" placeholder="Username" name="username" autocomplete="off">
+                <input type="text" class="form-control shadow-none border-0 border-bottom" id="floatingInput" placeholder="Username" name="username" autocomplete="off" value="user">
                 <label for="floatingInput">Username</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="password" class="form-control shadow-none border-0 border-bottom" id="floatingPassword" placeholder="Password" name="password">
+                <input type="password" class="form-control shadow-none border-0 border-bottom" id="floatingPassword" placeholder="Password" name="password" value="user">
                 <label for="floatingPassword">Password</label>
               </div>
               <div class="form-check mb-3">

@@ -24,7 +24,7 @@ import jakarta.servlet.DispatcherType;
 @EnableWebSecurity
 public class AppSecurityConfig {
 
-	private static final String[] ROLES = { "USER", "ADMIN" };
+	private static final String[] ROLES = { "ADMIN", "USER" };
 
 	@PostConstruct
 	public void initialize() {
@@ -33,9 +33,14 @@ public class AppSecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(
-				auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll().requestMatchers("/resources/**")
-						.permitAll().requestMatchers("/**").hasAnyRole(ROLES).anyRequest().authenticated())
+		http.headers(headers -> headers.contentTypeOptions(contentTypeOptions -> contentTypeOptions.disable())
+				.xssProtection(xss -> xss.disable()).frameOptions(frameOptions -> frameOptions.disable())
+				.contentSecurityPolicy(contentSecurityPolicy -> contentSecurityPolicy
+						.policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline'; "
+								+ "style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
+								+ "connect-src 'self'; frame-ancestors 'none';")));
+		http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+				.requestMatchers("/resources/**").permitAll().anyRequest().hasAnyRole(ROLES))
 				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/home", true))
 				.logout(LogoutConfigurer::permitAll).httpBasic(withDefaults());
 		return http.csrf(csrf -> csrf.disable()).build();

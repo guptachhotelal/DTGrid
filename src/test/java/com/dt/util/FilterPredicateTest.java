@@ -22,10 +22,9 @@ class FilterPredicateTest {
 
 	@Test
 	void testTestForNull() {
-		new FilterPredicate<>(null);
 		Predicate<TestData> predicate = new FilterPredicate<>("serialversionuid", "serialversionuid");
-		Exception ex = assertThrows(Exception.class, () -> predicate.test(null));
-		assertTrue(IllegalAccessException.class == ex.getClass() || RuntimeException.class == ex.getClass());
+		Exception ex = assertThrows(RuntimeException.class, () -> predicate.test(null));
+		assertTrue(ex.getCause() == null || ex.getCause() instanceof NullPointerException);
 	}
 
 	@Test
@@ -48,7 +47,7 @@ class FilterPredicateTest {
 	void testTestNonNullNotContainsInIgnoreList() {
 		new FilterPredicate<>(null);
 		TestData td = TestData.builder().city("Mumbai").state("Maharashtra").build();
-		Predicate<TestData> predicate = new FilterPredicate<>("Mum", "mum");
+		Predicate<TestData> predicate = new FilterPredicate<>("Mum", "city"); // ignore field name 'city'
 		assertFalse(predicate.test(td));
 	}
 }

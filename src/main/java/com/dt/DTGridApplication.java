@@ -1,9 +1,13 @@
 package com.dt;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,4 +27,10 @@ public class DTGridApplication extends SpringBootServletInitializer implements W
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(DTGridApplication.class);
 	}
+
+	@Bean(name = "virtualExecutor")
+	Executor virtualExecutor() {
+		return Executors.newVirtualThreadPerTaskExecutor();
+	}
+
 }

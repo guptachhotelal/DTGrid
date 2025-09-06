@@ -18,7 +18,7 @@ import com.dt.entity.TestData;
 
 class HTMLtoPDFTest extends TestUtilClass {
 
-	private static int seed = 1000;
+	private static int seed = 100;
 
 	@Test
 	void testInstantiation() throws Exception {

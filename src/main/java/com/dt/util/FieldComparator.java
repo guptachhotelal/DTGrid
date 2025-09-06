@@ -2,12 +2,11 @@ package com.dt.util;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
-import java.util.Objects;
 
 public class FieldComparator<T> implements Comparator<T> {
 
-	private String fieldName;
-	private boolean asc;
+	private final String fieldName;
+	private final boolean asc;
 
 	public FieldComparator(String fieldName, boolean asc) {
 		this.fieldName = fieldName;
@@ -17,29 +16,34 @@ public class FieldComparator<T> implements Comparator<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public int compare(T t1, T t2) {
-		int val = 0;
-		if (Objects.isNull(fieldName)) {
-			return val;
+		if (fieldName == null) {
+			return 0;
 		}
 		try {
-			Field field1 = t1.getClass().getDeclaredField(fieldName);
-			Field field2 = t2.getClass().getDeclaredField(fieldName);
-
-			field1.setAccessible(true);
-			field2.setAccessible(true);
-			Comparable<Object> cmp1 = (Comparable<Object>) field1.get(t1);
-			Comparable<Object> cmp2 = (Comparable<Object>) field2.get(t2);
-
-			if (Objects.isNull(cmp2)) {
-				val = 1;
-			} else if (Objects.isNull(cmp1)) {
-				val = -1;
-			} else {
-				val = Objects.compare(cmp1, cmp2, asc ? Comparator.naturalOrder() : Comparator.reverseOrder());
-			}
+			Field field = getField(t1.getClass(), fieldName);
+			field.setAccessible(true);
+			Comparable<Object> cmp1 = (Comparable<Object>) field.get(t1);
+			Comparable<Object> cmp2 = (Comparable<Object>) field.get(t2);
+			if (cmp1 == null && cmp2 == null)
+				return 0;
+			if (cmp1 == null)
+				return asc ? -1 : 1;
+			if (cmp2 == null)
+				return asc ? 1 : -1;
+			return asc ? cmp1.compareTo(cmp2) : cmp2.compareTo(cmp1);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return val;
+	}
+
+	private Field getField(Class<?> clazz, String name) throws NoSuchFieldException {
+		while (clazz != null) {
+			try {
+				return clazz.getDeclaredField(name);
+			} catch (NoSuchFieldException e) {
+				clazz = clazz.getSuperclass();
+			}
+		}
+		throw new NoSuchFieldException(name);
 	}
 }

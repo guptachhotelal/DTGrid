@@ -2,46 +2,43 @@ package com.dt.util;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class FilterPredicate<T> implements Predicate<T> {
 
-	private String searchText;
-	private List<String> ignoreList;
+	private final String searchText;
+	private final Set<String> ignoreSet;
 
 	public FilterPredicate(String searchText, String... ignoreFields) {
-		this.searchText = Objects.isNull(searchText) ? "" : searchText.toLowerCase();
-		ignoreList = Arrays.asList(ignoreFields).stream().collect(Collectors.toList());
-		ignoreList.add("serialversionuid");
+		this.searchText = Objects.toString(searchText, "").toLowerCase();
+		this.ignoreSet = new HashSet<>(Arrays.asList(ignoreFields));
+		this.ignoreSet.add("serialversionuid");
 	}
 
 	@Override
 	public boolean test(T t) {
-		if ("".equals(searchText)) {
+		if (searchText.isEmpty()) {
 			return true;
 		}
-
-		boolean contains = false;
 		try {
-			Class<?> clazz = t.getClass();
-			OUTER: while (clazz != null) {
-				Field[] fields = clazz.getDeclaredFields();
-				for (Field field : fields) {
+			for (Class<?> clazz = t.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
+				for (Field field : clazz.getDeclaredFields()) {
 					field.setAccessible(true);
-					String fieldValue = String.valueOf(field.get(t)).toLowerCase();
-					contains = fieldValue.contains(searchText) && !ignoreList.contains(searchText);
-					if (contains) {
-						break OUTER;
+					if (ignoreSet.contains(field.getName().toLowerCase())) {
+						continue;
+					}
+					Object value = field.get(t);
+					if (value != null && value.toString().toLowerCase().contains(searchText)) {
+						return true;
 					}
 				}
-				clazz = clazz.getSuperclass();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return contains;
+		return false;
 	}
 }
