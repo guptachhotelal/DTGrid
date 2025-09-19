@@ -20,7 +20,7 @@ public class FilterPredicate<T> implements Predicate<T> {
 
 	@Override
 	public boolean test(T t) {
-		if (searchText.isEmpty()) {
+		if (searchText.strip().isEmpty()) {
 			return true;
 		}
 		try {
