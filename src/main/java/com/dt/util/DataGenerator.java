@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 
 @Configuration
 @PropertySource({ "classpath:/dtgrid-${spring.profiles.active}.properties" })
@@ -29,7 +29,7 @@ public class DataGenerator {
 			"yahoo.co.in", "outlook.com", "gmx.com", "rediff.com", "zoho.com"
 	};
 	private static final Random RANDOM = new Random();
-	private static final Map<Long, TestData> STORAGE = new ConcurrentHashMap<>();
+	private static final Map<Long, TestData> STORAGE = new ConcurrentHashMap<>(10000000);
 
 	private static long date() {
 		LocalDateTime ldt1 = LocalDateTime.now().minusYears(18);

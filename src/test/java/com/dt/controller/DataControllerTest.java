@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.dt.DTGridApplicationTest;
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 
 import jakarta.annotation.Resource;
 

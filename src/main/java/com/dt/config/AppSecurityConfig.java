@@ -33,10 +33,9 @@ public class AppSecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.headers(headers -> headers.contentTypeOptions(contentTypeOptions -> contentTypeOptions.disable())
-				.xssProtection(xss -> xss.disable()).frameOptions(frameOptions -> frameOptions.disable())
-				.contentSecurityPolicy(contentSecurityPolicy -> contentSecurityPolicy
-						.policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline'; "
+		http.headers(headers -> headers.contentTypeOptions(ctos -> ctos.disable())
+				.xssProtection(withDefaults()).frameOptions(withDefaults()).contentSecurityPolicy(
+						csp -> csp.policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline'; "
 								+ "style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
 								+ "connect-src 'self'; frame-ancestors 'none';")));
 		http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()

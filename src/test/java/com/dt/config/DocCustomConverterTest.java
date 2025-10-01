@@ -12,7 +12,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.core.jackson.TypeNameResolver.Options;

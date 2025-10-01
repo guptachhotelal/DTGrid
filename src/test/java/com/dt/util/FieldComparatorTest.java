@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 
 class FieldComparatorTest {
 

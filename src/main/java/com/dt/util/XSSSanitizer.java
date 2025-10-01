@@ -2,7 +2,6 @@ package com.dt.util;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.web.util.HtmlUtils;
 
@@ -12,12 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class XSSSanitizer {
 
-	public static String sanitizerObject(Object object) {
+	public static String sanitizeObject(Object object) {
 		String text = String.valueOf(object);
 		return !isEscaped(text) ? HtmlUtils.htmlEscape(text) : text;
 	}
 
-	public static <T> T sanitizerObject(T object, Class<T> clazz) {
+	public static <T> T sanitizeObject(T object, Class<T> clazz) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return mapper.readValue(json(mapper, object), clazz);
@@ -26,11 +25,11 @@ public class XSSSanitizer {
 		}
 	}
 
-	public static <T> List<T> sanitizerObject(List<T> objects, Class<T> clazz) {
+	public static <T> List<T> sanitizeObject(List<T> objects, Class<T> clazz) {
 		if (objects.isEmpty()) {
 			return Collections.emptyList();
 		}
-		return objects.stream().map(object -> sanitizerObject(object, clazz)).collect(Collectors.toList());
+		return objects.stream().map(object -> sanitizeObject(object, clazz)).toList();
 	}
 
 	private static String json(ObjectMapper mapper, Object obj) throws JsonProcessingException {
@@ -54,7 +53,7 @@ public class XSSSanitizer {
 			} else if (child.isTextual()) {
 				String text = child.asText();
 				if (!isEscaped(text)) {
-					text = sanitizerObject(text);
+					text = sanitizeObject(text);
 				}
 				childNode.setValue(mapper.valueToTree(text));
 			}

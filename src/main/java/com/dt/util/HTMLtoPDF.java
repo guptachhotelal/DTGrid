@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;

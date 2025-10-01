@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 
 class DataGeneratorTest {
 

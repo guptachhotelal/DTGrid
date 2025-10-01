@@ -23,13 +23,13 @@ class XSSSanitizerTest {
 	@Test
 	void testSanitizeTextNull() throws Exception {
 		String dirty = null;
-		Assertions.assertEquals("null", XSSSanitizer.sanitizerObject(dirty));
+		Assertions.assertEquals("null", XSSSanitizer.sanitizeObject(dirty));
 	}
 
 	@Test
 	void testSanitizeTextEmpty() throws Exception {
 		String dirty = "";
-		String SanitizeedText = XSSSanitizer.sanitizerObject(dirty);
+		String SanitizeedText = XSSSanitizer.sanitizeObject(dirty);
 		Assertions.assertNotNull(SanitizeedText);
 		Assertions.assertEquals(dirty, SanitizeedText);
 	}
@@ -37,7 +37,7 @@ class XSSSanitizerTest {
 	@Test
 	void testSanitizeText() throws Exception {
 		String dirty = "<script>alert(\"This is JavaScript\")</script>";
-		String SanitizeedText = XSSSanitizer.sanitizerObject(dirty);
+		String SanitizeedText = XSSSanitizer.sanitizeObject(dirty);
 		Assertions.assertNotNull(SanitizeedText);
 		Assertions.assertNotEquals(dirty, SanitizeedText);
 	}
@@ -45,21 +45,21 @@ class XSSSanitizerTest {
 	@Test
 	void testAlreadySanitizeObject() throws Exception {
 		Dirty dirty = new Dirty(1, "abc def", "This is test description", new Date());
-		Dirty SanitizeedObj = XSSSanitizer.sanitizerObject(dirty, Dirty.class);
+		Dirty SanitizeedObj = XSSSanitizer.sanitizeObject(dirty, Dirty.class);
 		Assertions.assertEquals(dirty, SanitizeedObj);
 	}
 
 	@Test
 	void testSanitizeObjectList() throws Exception {
 		List<String> list = Arrays.asList("a", "b", "c");
-		List<String> Sanitizeed = XSSSanitizer.sanitizerObject(list, String.class);
+		List<String> Sanitizeed = XSSSanitizer.sanitizeObject(list, String.class);
 		Assertions.assertEquals(list.size(), Sanitizeed.size());
 	}
 
 	@Test
 	void testSanitizeObjectNullValue() throws Exception {
 		Dirty dirty = new Dirty(null, null, null, null);
-		Dirty SanitizeedObj = XSSSanitizer.sanitizerObject(dirty, Dirty.class);
+		Dirty SanitizeedObj = XSSSanitizer.sanitizeObject(dirty, Dirty.class);
 		Assertions.assertEquals(dirty, SanitizeedObj);
 		Assertions.assertNull(SanitizeedObj.getId());
 		Assertions.assertNull(SanitizeedObj.getName());
@@ -70,7 +70,7 @@ class XSSSanitizerTest {
 	@Test
 	void testSanitizeEmptyValue() throws Exception {
 		Dirty dirty = new Dirty(null, "", "", null);
-		Dirty SanitizeedObj = XSSSanitizer.sanitizerObject(dirty, Dirty.class);
+		Dirty SanitizeedObj = XSSSanitizer.sanitizeObject(dirty, Dirty.class);
 		Assertions.assertEquals(dirty, SanitizeedObj);
 		Assertions.assertNull(SanitizeedObj.getId());
 		Assertions.assertNotNull(SanitizeedObj.getName());
@@ -81,7 +81,7 @@ class XSSSanitizerTest {
 	@Test
 	void testSanitizeObject() throws Exception {
 		Dirty dirty = new Dirty(1, "Abc<def>", "testd\"escription", new Date());
-		Dirty SanitizeedObj = XSSSanitizer.sanitizerObject(dirty, Dirty.class);
+		Dirty SanitizeedObj = XSSSanitizer.sanitizeObject(dirty, Dirty.class);
 		Assertions.assertNotEquals(dirty, SanitizeedObj);
 		Assertions.assertNotEquals(dirty.getName(), SanitizeedObj.getName());
 		Assertions.assertTrue(SanitizeedObj.getName().contains("&lt;"));
@@ -93,7 +93,7 @@ class XSSSanitizerTest {
 	@Test
 	void testSanitizeScript() throws Exception {
 		Dirty dirty = new Dirty(1, "<script>alert(\"This is JavaScript\")</script>", "testd\"escription", new Date());
-		Dirty SanitizeedObj = XSSSanitizer.sanitizerObject(dirty, Dirty.class);
+		Dirty SanitizeedObj = XSSSanitizer.sanitizeObject(dirty, Dirty.class);
 		Assertions.assertNotEquals(dirty, SanitizeedObj);
 		Assertions.assertNotEquals(dirty.getName(), SanitizeedObj.getName());
 		Assertions.assertEquals(HtmlUtils.htmlEscape(dirty.getDescription()), SanitizeedObj.getDescription());
@@ -104,7 +104,7 @@ class XSSSanitizerTest {
 		Dirty dirty = new Dirty(1, "<script>alert(\"This is JavaScript\")</script>",
 				"<html><body><script>alert(\"This is sample html with JavaScript\")</script></body></html>",
 				new Date());
-		Dirty SanitizeedObj = XSSSanitizer.sanitizerObject(dirty, Dirty.class);
+		Dirty SanitizeedObj = XSSSanitizer.sanitizeObject(dirty, Dirty.class);
 		Assertions.assertNotEquals(dirty, SanitizeedObj);
 		Assertions.assertNotEquals(dirty.getName(), SanitizeedObj.getName());
 		Assertions.assertTrue(SanitizeedObj.getDescription().contains("&lt;"));

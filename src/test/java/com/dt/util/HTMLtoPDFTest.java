@@ -14,7 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 
 class HTMLtoPDFTest extends TestUtilClass {
 

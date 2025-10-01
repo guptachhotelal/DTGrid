@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dt.config.DocConstant;
-import com.dt.entity.TestData;
+import com.dt.model.TestData;
 import com.dt.service.ASyncService;
 import com.dt.util.FilterAndSortUtil;
 
@@ -29,9 +29,9 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping(DocConstant.API_VERSION)
 public class DataController {
 
-	private ASyncService aService;
+	private ASyncService<TestData> aService;
 
-	public DataController(ASyncService aService) {
+	public DataController(ASyncService<TestData> aService) {
 		this.aService = aService;
 	}
 

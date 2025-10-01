@@ -2,11 +2,9 @@ package com.dt.service;
 
 import java.util.Map;
 
-import com.dt.entity.TestData;
-
-public interface ASyncService {
+public interface ASyncService<T> {
 
 	void generate();
 
-	Map<Long, TestData> store();
+	Map<Long, T> store();
 }

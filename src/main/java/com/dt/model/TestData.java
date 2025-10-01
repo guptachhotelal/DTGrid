@@ -1,4 +1,4 @@
-package com.dt.entity;
+package com.dt.model;
 
 import java.io.Serializable;
 
