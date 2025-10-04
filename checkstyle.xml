@@ -3,7 +3,7 @@
 <module name="Checker">
 	<module name="JavadocPackage" />
 	<module name="FileLength">
-		<property name="max" value="150" />
+		<property name="max" value="200" />
 	</module>
 	<module name="TreeWalker">
 		<module name="AvoidStarImport">

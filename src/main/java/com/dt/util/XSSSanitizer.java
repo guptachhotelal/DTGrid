@@ -63,5 +63,4 @@ public class XSSSanitizer {
 	private XSSSanitizer() {
 		throw new UnsupportedOperationException("Cannot instantiate " + getClass().getName());
 	}
-
 }

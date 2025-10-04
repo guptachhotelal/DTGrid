@@ -75,17 +75,18 @@ public final class HTMLtoPDF {
 		List<TestData> data = collection.stream().toList();
 		for (int i = 0; i < data.size(); i++) {
 			TestData td = data.get(i);
-			temp.append("<tr class=\"border_bottom\">").append("<td style=\"text-align: right;\">").append(i + 1)
-					.append("</td>").append("<td style=\"text-align: left;\">").append(td.getName())
-					.append("</td><td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getDob()))
-					.append("</td><td style=\"text-align: left;\">").append(td.getPhone())
-					.append("</td><td style=\"text-align: left;\">").append(td.getEmail()).append("</td>")
-					.append("<td style=\"text-align: left;\">").append(td.getCity())
-					.append("</td><td style=\"text-align: right;\">").append(td.getPincode())
-					.append("</td><td style=\"text-align: left;\">").append(td.getState()).append("</td>")
-					.append("<td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getCreateDate()))
-					.append("</td>").append("<td style=\"text-align: left;\">")
-					.append(DateUtil.longToDate(td.getUpdateDate())).append("</td></tr>");
+			temp.append("<tr class=\"border_bottom\">")
+					.append("<td style=\"text-align: right;\">").append(i + 1).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(td.getName()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getDob())).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(td.getPhone()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(td.getEmail()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(td.getCity()).append("</td>")
+					.append("<td style=\"text-align: right;\">").append(td.getPincode()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(td.getState()).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getCreateDate())).append("</td>")
+					.append("<td style=\"text-align: left;\">").append(DateUtil.longToDate(td.getUpdateDate())).append("</td>")
+			.append("</tr>");
 		}
 		temp.append("</tbody></table></body></html>");
 		String html = String.valueOf(temp);

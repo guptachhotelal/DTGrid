@@ -10,7 +10,7 @@ import com.dt.model.TestData;
 import com.dt.util.DataGenerator;
 
 @Service
-public class ASyncDataGeneratorService implements ASyncService {
+public class ASyncDataGeneratorService implements ASyncService<TestData> {
 
 	@Value("${app.record.start}")
 	private int startSize;
